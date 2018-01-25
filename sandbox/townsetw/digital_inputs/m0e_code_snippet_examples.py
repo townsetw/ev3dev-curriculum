@@ -9,8 +9,9 @@ https://docs.google.com/presentation/d/1mUxsC-cUO4S5bwhTAQG0G10IO0gsbAU5YEORxeh0
 Author: David Fisher
 """
 
-import ev3dev.ev3 as ev3
 import time
+
+import ev3dev.ev3 as ev3
 
 import robot_controller as robo
 

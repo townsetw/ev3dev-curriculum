@@ -21,8 +21,6 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 import tkinter
 from tkinter import ttk
 
-import mqtt_remote_method_calls as com
-
 
 # TODO: 2. Create a class. Feel free to call it MyDelegate.
 # Within that class you don't even need an __init__ constructor (an empty constructor comes for free)

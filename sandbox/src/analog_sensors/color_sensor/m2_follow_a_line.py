@@ -16,7 +16,6 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
-import time
 
 import robot_controller as robo
 

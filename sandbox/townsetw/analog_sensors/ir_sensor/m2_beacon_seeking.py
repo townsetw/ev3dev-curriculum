@@ -11,11 +11,11 @@ prompted if they want to find the beacon again (presumably you move it first) or
 
 Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+import math
+import time
 import traceback
 
 import ev3dev.ev3 as ev3
-import time
-import math
 
 import robot_controller as robo
 

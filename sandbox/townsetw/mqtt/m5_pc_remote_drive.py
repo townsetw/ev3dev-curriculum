@@ -28,8 +28,6 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 import tkinter
 from tkinter import ttk
 
-import mqtt_remote_method_calls as com
-
 
 def main():
     # TODO: 2. Setup an mqtt_client.  Notice that since you don't need to receive any messages you do NOT need to have

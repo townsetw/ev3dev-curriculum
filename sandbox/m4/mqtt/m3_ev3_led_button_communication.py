@@ -35,11 +35,9 @@ Implement the TODOs below to complete this module, then transfer the file to the
 Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-
-import mqtt_remote_method_calls as com
+import time
 
 import ev3dev.ev3 as ev3
-import time
 
 
 # TODO: 2. Within the MyDelegate class below add the method, set_led, to receive messages as described above.

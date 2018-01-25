@@ -6,11 +6,11 @@ EV3 to the PC.
 Authors: David Fisher and PUT_YOUR_NAME_HERE.  February 2017.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-import ev3dev.ev3 as ev3
 import time
 
+import ev3dev.ev3 as ev3
+
 import robot_controller as robo
-import mqtt_remote_method_calls as com
 
 
 def main():

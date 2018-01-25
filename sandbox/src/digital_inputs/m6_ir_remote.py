@@ -28,10 +28,12 @@
 Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-import ev3dev.ev3 as ev3
 import time
 
+import ev3dev.ev3 as ev3
+
 import robot_controller as robo
+
 
 # Note that todo2 is farther down in the code.  That method needs to be written before you do todo3.
 # TODO: 3. Have someone on your team run this program on the EV3 and make sure everyone understands the code.

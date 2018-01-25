@@ -19,10 +19,10 @@ You can check off this part with a single successful run (sometimes it can be ha
 
 Author: David Fisher.
 """
+import time
 import traceback
 
 import ev3dev.ev3 as ev3
-import time
 
 import robot_controller as robo
 

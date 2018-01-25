@@ -13,8 +13,9 @@ for your environment). After a beep wait for at least 1 second to avoid lots of 
 Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-import ev3dev.ev3 as ev3
 import time
+
+import ev3dev.ev3 as ev3
 
 import robot_controller as robo
 

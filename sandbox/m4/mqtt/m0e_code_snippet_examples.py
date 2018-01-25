@@ -9,11 +9,12 @@ https://docs.google.com/presentation/d/1gQt1K4X2xzcspKMn2S0X98vhzVNmLA-xoQe5rp58
 Author: David Fisher
 """
 
-import ev3dev.ev3 as ev3
 import time
 
-import robot_controller as robo
+import ev3dev.ev3 as ev3
+
 import mqtt_remote_method_calls as com
+import robot_controller as robo
 
 
 def sending_messages_to_ev3():
