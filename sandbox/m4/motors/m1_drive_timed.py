@@ -90,10 +90,9 @@ def main():
     time_s = 1  # Any value other than 0.
     while time_s != 0:
         left_sp = int(input("Enter a speed for the motor (0 to 900 dps): "))
-        right_sp = left_sp
         distance_in = int(input("Enter a distance to travel (inches): "))
         left_motor.run_forever(speed_sp=left_sp)
-        right_motor.run_forever(speed_sp=right_sp)
+        right_motor.run_forever(speed_sp=left_sp)
         time_s = (left_sp * 0.011358) / distance_in
         time.sleep(time_s)
         left_motor.stop()
