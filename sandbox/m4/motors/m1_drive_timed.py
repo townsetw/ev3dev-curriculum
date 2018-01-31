@@ -93,7 +93,7 @@ def main():
         distance_in = int(input("Enter a distance to travel (inches): "))
         left_motor.run_forever(speed_sp=left_sp)
         right_motor.run_forever(speed_sp=left_sp)
-        time_s = (left_sp * 0.011358) / distance_in
+        time_s = distance_in / (left_sp * 0.011358)
         time.sleep(time_s)
         left_motor.stop()
         right_motor.stop(stop_action="brake")
