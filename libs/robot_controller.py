@@ -31,7 +31,7 @@ class Snatch3r(object):
         self.left_motor.run_to_rel_pos(position_sp = inches_target * 90,
                                        speed_sp = speed_deg_per_second,
                                        stop_action = ev3.Motor.STOP_ACTION_BRAKE)
-        
+
         self.right_motor.run_to_rel_pos(position_sp=inches_target * 90,
                                        speed_sp=speed_deg_per_second,
                                        stop_action=ev3.Motor.STOP_ACTION_BRAKE)
