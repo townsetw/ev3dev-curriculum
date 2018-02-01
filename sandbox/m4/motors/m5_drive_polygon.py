@@ -6,7 +6,7 @@ You will ask the user for how many sides they would like in their polygon, the l
 Then your robot will drive that polygon shape.
 
 Authors: David Fisher and Drew, Tyler, and Nathan.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 
