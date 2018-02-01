@@ -67,7 +67,7 @@ def main():
             print("up")
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-        
+
         # TODO: 3. Implement the left, right, and up buttons as follows:
         #    When the up button is being pressed:
         #      -- print the word "up"
