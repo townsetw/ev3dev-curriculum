@@ -67,7 +67,8 @@ def main():
             print("up")
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-        
+
+
         # TODO: 3. Implement the left, right, and up buttons as follows:
         #    When the up button is being pressed:
         #      -- print the word "up"
@@ -93,6 +94,31 @@ def main():
         #   Since you are only allowed to use states, not event callbacks, this last request is a pain, but it's doable
         #     with a while loop that blocks code execution until the down instance variable is False.
         #     Use a time.sleep(0.01) inside the while loop to do nothing but wait for the button to be released.
+
+
+        if btn.down:
+            if current_color_index == 0:
+                ev3.Leds.set_color(ev3.Leds.LEFT, led_colors[1])
+                ev3.Leds.set_color(ev3.Leds.RIGHT, led_colors[1])
+                time.sleep(0.1)
+            elif current_color_index == 1:
+                ev3.Leds.set_color(ev3.Leds.LEFT, led_colors[2])
+                ev3.Leds.set_color(ev3.Leds.RIGHT, led_colors[2])
+                time.sleep(0.1)
+            elif current_color_index == 2:
+                ev3.Leds.set_color(ev3.Leds.LEFT, led_colors[3])
+                ev3.Leds.set_color(ev3.Leds.RIGHT, led_colors[3])
+                time.sleep(0.1)
+            elif current_color_index == 3:
+                ev3.Leds.set_color(ev3.Leds.LEFT, led_colors[0])
+                ev3.Leds.set_color(ev3.Leds.RIGHT, led_colors[0])
+                time.sleep(0.1)
+            current_color_index += 1
+            if current_color_index == 4:
+                current_color_index = 0
+            if btn.backspace:
+                break
+            time.sleep(0.01)
 
         # TODO: 5. Formally test your work. When you think you have the problem complete run these tests:
         #   Press Left - Green left LED is on (try holding the button down for a few seconds when you to the press)
