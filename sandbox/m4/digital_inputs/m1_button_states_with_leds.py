@@ -68,6 +68,7 @@ def main():
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
+
         # TODO: 3. Implement the left, right, and up buttons as follows:
         #    When the up button is being pressed:
         #      -- print the word "up"
@@ -93,6 +94,30 @@ def main():
         #   Since you are only allowed to use states, not event callbacks, this last request is a pain, but it's doable
         #     with a while loop that blocks code execution until the down instance variable is False.
         #     Use a time.sleep(0.01) inside the while loop to do nothing but wait for the button to be released.
+        for k in range(len(led_colors)):
+            if btn.down:
+                k = k + 1
+                ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.led_colors[k])
+                ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+                print("green")
+                time.sleep(1.0)
+                if btn.down:
+                    ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+                    ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+                    print("red")
+                    time.sleep(1.0)
+                    if btn.down:
+                        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.AMBER)
+                        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.AMBER)
+                        print("amber")
+                        time.sleep(1.0)
+                        if btn.down:
+                            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+                            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+                            print("off")
+                            time.sleep(1.0)
+            print("No Button Pressed")
+            time.sleep(0.5)
 
         # TODO: 5. Formally test your work. When you think you have the problem complete run these tests:
         #   Press Left - Green left LED is on (try holding the button down for a few seconds when you to the press)
