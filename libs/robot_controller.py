@@ -12,7 +12,7 @@
 """
 
 import ev3dev.ev3 as ev3
-
+import time
 
 
 class Snatch3r(object):
@@ -21,9 +21,15 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
+        self.touch_sensor = ev3.TouchSensor()
 
         assert self.left_motor.connected
         assert self.right_motor.connected
+        assert self.arm_motor.connected
+        assert self.touch_sensor.connected
+
+        self.MAX_SPEED = 900
     
 
     def drive_inches(self,inches_target, speed_deg_per_second):
@@ -52,6 +58,41 @@ class Snatch3r(object):
 
 
         ev3.Sound.beep().wait()
+
+    def arm_calibration(self):
+        MAX_SPEED = 900
+
+
+        self.arm_motor.run_forever(speed_sp=MAX_SPEED)
+
+        while not self.touch_sensor.is_pressed:
+            time.sleep(0.01)
+
+        self.arm_motor.stop(stop_action="brake")
+        ev3.Sound.beep()
+
+        arm_revolutions_for_full_range = 14.2 * 360
+        self.arm_motor.run_to_rel_pos(
+            position_sp=-arm_revolutions_for_full_range)
+        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        ev3.Sound.beep()
+
+        self.arm_motor.position = 0
+
+    def arm_up(self):
+
+        self.arm_motor.run_forever(speed_sp=self.MAX_SPEED)
+        while not self.touch_sensor.is_pressed:
+            time.sleep(0.01)
+        self.arm_motor.stop(stop_action="brake")
+        ev3.Sound.beep()
+
+    def arm_down(self):
+
+        self.arm_motor.run_to_abs_pos(position_sp=0, speed_sp=self.MAX_SPEED)
+        self.arm_motor.wait_while(
+            ev3.Motor.STATE_RUNNING)
+        ev3.Sound.beep()
 
 
 
