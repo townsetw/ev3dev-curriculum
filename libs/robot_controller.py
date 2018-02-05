@@ -91,6 +91,12 @@ class Snatch3r(object):
             ev3.Motor.STATE_RUNNING)
         ev3.Sound.beep()
 
+    def shutdown(self):
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action='brake')
 
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
 
-
+        print('Goodbye')
+        ev3.Sound.speak("Goodbye").wait()
