@@ -67,8 +67,17 @@ def main():
     rc1 = ev3.RemoteControl(channel=1)
     assert rc1.connected
 
+    rc1.on_red_up = lambda state: handle_red_up_1(state, )
+    rc1.on_red_down = lambda state: handle_red_down_1(state, )
+    rc1.on_blue_up = lambda state: handle_blue_up_1(state, )
+    rc1.on_blue_down = lambda state: handle_blue_down_1(state, )
+
     rc2 = ev3.RemoteControl(channel=2)
     assert rc2.connected
+
+    rc2.on_red_up = lambda state: handle_arm_up_button(state, robot)
+    rc2.on_red_down = lambda state: handle_arm_down_button(state, robot)
+    rc2.on_blue_up = lambda state: handle_calibrate_button(state, robot)
 
     # For our standard shutdown button.
     btn = ev3.Button()
@@ -95,6 +104,10 @@ def main():
 # Movement event handlers have not been provided.
 # ----------------------------------------------------------------------
 # TODO: 6. Implement the IR handler callbacks handlers.
+
+def handle_red_up_1(button_state, robot):
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
 
 # TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
 #
