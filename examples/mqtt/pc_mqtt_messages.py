@@ -61,7 +61,6 @@ def main():
 
     root.mainloop()
 
-
 def send_message(mqtt_client, msg_entry):
     msg = msg_entry.get()
     msg_entry.delete(0, 'end')
