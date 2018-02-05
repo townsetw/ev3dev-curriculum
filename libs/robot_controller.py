@@ -60,10 +60,7 @@ class Snatch3r(object):
         ev3.Sound.beep().wait()
 
     def arm_calibration(self):
-        MAX_SPEED = 900
-
-
-        self.arm_motor.run_forever(speed_sp=MAX_SPEED)
+        self.arm_motor.run_forever(speed_sp=self.MAX_SPEED)
 
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
