@@ -20,7 +20,7 @@
   Buttons
     -- Pressing the Back button will allow your program to end.  It should stop motors, turn on both green LEDs, and
        then print and say Goodbye.  You will need to implement a new robot method called shutdown to handle this task.
-Authors: David Fisher and Group 24.
+Authors: David Fisher and Group 27.
 """  # done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
