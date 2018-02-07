@@ -15,16 +15,18 @@ In addition to the MQTT goals, this example will show some tkinter tricks:
   -- How to capture mouse clicks and process the X Y locations
   -- How to draw circles onto a Tkinter Canvas.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and LEGO 27.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 
-# TODO: 2. Select one team member to open libs/mqtt_remote_method_calls.py and complete the TO DO that is in that file.
+# DONE: 2. Select one team member to open libs/mqtt_remote_method_calls.py and
+# complete the TO DO that is in that file.
 # After making that change, they should commit their work and all other team members should do a VCS -> Update
 # After all team members see that file changed you can move on to the next TO DO
 # Also someone should update the libs/mqtt_remote_method_calls.py file on the robot too (at some point before m3).
 
-# TODO: 3. Run this program as is on your computer and watch the logs as you click in the window.
+# DONE: 3. Run this program as is on your computer and watch the logs as you
+# click in the window.
 # Next see if you can review the code to see how it works.  You can do this individually or as a team.
 
 
@@ -35,16 +37,16 @@ from tkinter import ttk
 # TODO: 4. Uncomment the code below.  It imports a library and creates a relatively simple class.
 # The constructor receives a Tkinter Canvas and the one and only method draws a circle on that canvas at a given XY.
 
-# import mqtt_remote_method_calls as com
-#
-#
-# class MyDelegate(object):
-#
-#     def __init__(self, canvas):
-#         self.canvas = canvas
-#
-#     def on_circle_draw(self, color, x, y):
-#         self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill=color, width=3)
+import mqtt_remote_method_calls as com
+
+
+class MyDelegate(object):
+
+    def __init__(self, canvas):
+        self.canvas = canvas
+
+    def on_circle_draw(self, color, x, y):
+        self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill=color, width=3)
 
 
 def main():

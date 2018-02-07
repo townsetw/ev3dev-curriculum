@@ -70,7 +70,7 @@ def main():
     assert rc1.connected
 
     rc1.on_red_up = lambda state: handle_red_up(state, left_motor)
-    rc1.on_red_down = lambda state: handle_red_up(state, left_motor)
+    rc1.on_red_down = lambda state: handle_red_down(state, left_motor)
     rc1.on_blue_up = lambda state: handle_blue_up(state, right_motor)
     rc1.on_blue_down = lambda state: handle_blue_down(state, right_motor)
 
@@ -136,7 +136,7 @@ def handle_red_down(button_state, left_motor):
 def handle_blue_up(button_state, right_motor):
 
     if button_state:
-        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         right_motor.run_forever(speed_sp=600)
     else:
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
