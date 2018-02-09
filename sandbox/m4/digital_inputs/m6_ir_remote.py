@@ -62,7 +62,8 @@ def main():
     assert left_motor.connected
     assert right_motor.connected
 
-    # TODO: 4. Add the necessary IR handler callbacks as per the instructions above.
+    # DONE: 4. Add the necessary IR handler callbacks as per the instructions
+    # above.
     # Remote control channel 1 is for driving the crawler tracks around (none of these functions exist yet below).
     # Remote control channel 2 is for moving the arm up and down (all of these functions already exist below).
 
