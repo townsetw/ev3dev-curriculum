@@ -112,3 +112,10 @@ class Snatch3r(object):
         self.running = True
         while self.running:
             time.sleep(0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.
+
+    def drive_forward(self, ):
+        self.left_motor.run_forever()
+        self.right_motor.run_forever()
+        self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+
