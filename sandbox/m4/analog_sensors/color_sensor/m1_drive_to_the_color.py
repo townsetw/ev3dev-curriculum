@@ -90,6 +90,7 @@ def drive_to_color(button_state, robot, color_to_seek):
     if button_state:
         ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
         robot.drive_forward(100,100)
+        print(robot.color_sensor.color)
         if robot.color_sensor.color == color_to_seek:
             robot.stop_robot()
 
