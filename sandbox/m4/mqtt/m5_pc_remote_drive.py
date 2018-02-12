@@ -83,6 +83,7 @@ def main():
     stop_button['command'] = lambda: send_stop_robot(mqtt_client)
     root.bind('<space>', lambda event: send_stop_robot(mqtt_client))
 
+
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
     # right_button and '<Right>' key
