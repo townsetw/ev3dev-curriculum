@@ -127,9 +127,9 @@ def send_down(mqtt_client):
     print("arm_down")
     mqtt_client.send_message("arm_down")
 
-def send_forward(mqtt_client):
+def send_forward(mqtt_client, left_speed_entry, right_speed_entry):
     print('send_forward')
-    mqtt_client.send_message("drive_forward")
+    mqtt_client.send_message("drive_forward", [left_speed_entry, right_speed_entry])
 
 # Quit and Exit button callbacks
 def quit_program(mqtt_client, shutdown_ev3):
