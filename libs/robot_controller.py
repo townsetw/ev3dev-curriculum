@@ -152,11 +152,9 @@ class Snatch3r(object):
         self.right_motor.stop(stop_action='brake')
         self.arm_motor.stop(stop_action='brake')
 
-    def seek_beacon(self):
-        """Look for the IR beacon"""
+    def seek_beacon(self, forward_speed, turn_speed):
+        """Drives to the beacon at a given forward speed and turn speed"""
         beacon_seeker = ev3.BeaconSeeker(channel=1)
-        forward_speed = 300
-        turn_speed = 100
 
         while not self.touch_sensor.is_pressed:
             current_heading = beacon_seeker.heading
