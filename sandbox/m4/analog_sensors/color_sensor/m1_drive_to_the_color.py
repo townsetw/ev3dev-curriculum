@@ -87,10 +87,12 @@ def drive_to_color(button_state, robot, color_to_seek):
       :type robot: robo.Snatch3r
       :type color_to_seek: int
     """
+    color_sensor = ev3.ColorSensor()
+
     if button_state:
         ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
 
-        while robot.color_sensor.color != color_to_seek:
+        while color_sensor.color != color_to_seek:
             robot.drive_forward(100, 100)
             print(robot.color_sensor.color)
 
