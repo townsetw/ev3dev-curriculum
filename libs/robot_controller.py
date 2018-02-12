@@ -116,6 +116,7 @@ class Snatch3r(object):
     def drive_forward(self, left_speed_entry, right_speed_entry):
         self.left_motor.run_forever(speed_sp = left_speed_entry)
         self.right_motor.run_forever(speed_sp = right_speed_entry)
-        self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
-        self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
+    def stop_robot(self):
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action='brake')
