@@ -27,9 +27,10 @@ import mqtt_remote_method_calls as com
 # DONE: 2. Create a class. Feel free to call it MyDelegate.
 # Within that class you don't even need an __init__ constructor (an empty constructor comes for free)
 
-class MyDelegate():
+class MyDelegate:
 
-    def guess_response(self, string):
+    @staticmethod
+    def guess_response(string):
 
         print(string)
 
@@ -47,7 +48,6 @@ def main():
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_ev3()
-
 
     root = tkinter.Tk()
     root.title("Petals on a Rose")
@@ -97,8 +97,6 @@ def set_num_dice(mqtt_client, num_dice_entry):
     # DONE: 6. Write the line of code necessary to implement this method based
     # on the doc string's description.
     mqtt_client.send_message("set_number_of_dice", [int(num_dice_entry)])
-
-
 
 # DONE: 7. See if you can solve the mystery.  Based on the dice how can you
 # solve Petals on a Rose?

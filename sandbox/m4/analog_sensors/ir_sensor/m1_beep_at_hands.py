@@ -31,8 +31,6 @@ def main():
     # the code below works to monitor the touch_sensor.
     sensor = ev3.InfraredSensor()
 
-
-
     while not robot.touch_sensor.is_pressed:
         # DONE: 2. Implement the module as described in the opening comment
         # block.
@@ -40,7 +38,7 @@ def main():
         #   self.ir_sensor = ev3.InfraredSensor()
         #   assert self.ir_sensor
         # Then here you can use a command like robot.ir_sensor.proximity
-        #sensor = robot.ir_sensor.proximity
+        # sensor = robot.ir_sensor.proximity
         print(sensor)
 
         if sensor.proximity <= 10:
@@ -49,7 +47,7 @@ def main():
 
         time.sleep(0.1)
 
-    # TODO: 3. Call over a TA or instructor to sign your team's checkoff sheet.
+    # Done: 3. Call over a TA or instructor to sign your team's checkoff sheet.
     #
     # Observations you should make, the instance variable robot.ir_sensor.proximity is always updating with a distance.
 

@@ -49,13 +49,12 @@ def main():
         elif 150 < x < 170:
             robot.stop_robot()
 
-
         time.sleep(0.25)
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
 
-# TODO: 4. Call over a TA or instructor to sign your team's checkoff sheet.
+# DONE: 4. Call over a TA or instructor to sign your team's checkoff sheet.
 #
 # Observations you should make, the Pixy cam could potentially be used for a lot of cool project ideas, but if you
 # decide to use the Pixy you should be aware of what it does well and what it doesn't do well.

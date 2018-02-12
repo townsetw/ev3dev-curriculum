@@ -54,7 +54,7 @@ def main():
             print("New black level is {}.".format(black_level))
         elif command_to_run == 'f':
             print("Follow the line until the touch sensor is pressed.")
-            follow_the_line(robot, white_level, black_level)
+            follow_the_line(robot, black_level)
         elif command_to_run == 'q':
             break
         else:
@@ -64,7 +64,7 @@ def main():
     ev3.Sound.speak("Goodbye").wait()
 
 
-def follow_the_line(robot, white_level, black_level):
+def follow_the_line(robot, black_level):
     """
     The robot follows the black line until the touch sensor is pressed.
     You will need a black line track to test your code
@@ -72,7 +72,6 @@ def follow_the_line(robot, white_level, black_level):
 
     Type hints:
       :type robot: robo.Snatch3r
-      :type white_level: int
       :type black_level: int
     """
     x = 2
@@ -85,7 +84,7 @@ def follow_the_line(robot, white_level, black_level):
         if robot.color_sensor.reflected_light_intensity > black_level + 20:
             robot.turn_degrees(10, 900)
         else:
-            robot.drive_forward(900,900)
+            robot.drive_forward(900, 900)
         if robot.touch_sensor.is_pressed:
             break
 
@@ -93,7 +92,8 @@ def follow_the_line(robot, white_level, black_level):
     ev3.Sound.speak("Done")
 
 
-# TODO: 6. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+# DONE: 6. Call over a TA or instructor to sign your team's checkoff sheet and
+# do a code review.
 #
 # Observations you should make, following a black line would be easier with 2 sensors (one on each side of the line),
 # but it can be done with only a single sensor.  There are also optimizations that could be made to follow the line

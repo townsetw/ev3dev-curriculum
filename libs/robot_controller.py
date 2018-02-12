@@ -165,7 +165,7 @@ class Snatch3r(object):
             else:
                 if math.fabs(current_heading) < 10:
                     print("On the right heading. Distance: ", current_distance)
-                    if current_distance <=10:
+                    if current_distance <= 10:
                         self.stop_robot()
                         return True
                     else:
