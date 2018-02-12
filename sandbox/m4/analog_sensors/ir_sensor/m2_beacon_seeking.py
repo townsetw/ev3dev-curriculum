@@ -9,8 +9,8 @@ function gets the robot to that location it will stop the robot and return.  Wit
 prompted if they want to find the beacon again (presumably you move it first) or quit.
 
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and lego 2y7 ME_HERE.
+"""  # TDDO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 import math
 import time
 import traceback
