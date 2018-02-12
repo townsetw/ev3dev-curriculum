@@ -36,7 +36,7 @@ class Snatch3r(object):
         assert self.pixy.connected
 
         self.MAX_SPEED = 900
-        self.running = ''
+        self.running = True
     
     def drive_inches(self, inches_target, speed_deg_per_second):
         """Moves the robot a given amount of inches at a given speed"""
