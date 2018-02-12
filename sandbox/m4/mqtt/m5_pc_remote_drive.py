@@ -29,6 +29,7 @@ import tkinter
 from tkinter import ttk
 import mqtt_remote_method_calls as com
 
+
 def main():
     # DONE: 2. Setup an mqtt_client.  Notice that since you don't need to
     # receive any messages you do NOT need to have
@@ -54,7 +55,8 @@ def main():
     right_speed_entry.insert(0, "600")
     right_speed_entry.grid(row=1, column=2)
 
-    # TODO: 3. Implement the callbacks for the drive buttons. Set both the click and shortcut key callbacks.
+    # DONE: 3. Implement the callbacks for the drive buttons. Set both the
+    # click and shortcut key callbacks.
     #
     # To help get you started the arm up and down buttons have been implemented.
     # You need to implement the five drive buttons.  One has been writen below to help get you started but is commented
@@ -62,7 +64,7 @@ def main():
 
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=2, column=1)
-    #forward_button and '<Up>' key is done for your here...
+    # forward_button and '<Up>' key is done for your here...
     forward_button['command'] = lambda: send_forward(mqtt_client,
                                                  left_speed_entry, right_speed_entry)
     root.bind('<Up>', lambda event: send_forward(mqtt_client, left_speed_entry,
@@ -82,7 +84,6 @@ def main():
     # stop_button and '<space>' key (note, does not need left_speed_entry, right_speed_entry)
     stop_button['command'] = lambda: send_stop_robot(mqtt_client)
     root.bind('<space>', lambda event: send_stop_robot(mqtt_client))
-
 
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
@@ -127,9 +128,10 @@ def main():
 # ----------------------------------------------------------------------
 # Tkinter callbacks
 # ----------------------------------------------------------------------
-# TODO: 4. Implement the functions for the drive button callbacks.
+# DONE: 4. Implement the functions for the drive button callbacks.
 
-# TODO: 5. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.  This is the final one!
+# DONE: 5. Call over a TA or instructor to sign your team's checkoff sheet and
+# do a code review.  This is the final one!
 #
 # Observations you should make, you did basically this same program using the IR Remote, but your computer can be a
 # remote control that can do A LOT more than an IR Remote.  We are just doing the basics here.
@@ -145,28 +147,35 @@ def send_down(mqtt_client):
     print("arm_down")
     mqtt_client.send_message("arm_down")
 
+
 def send_forward(mqtt_client, left_speed_entry, right_speed_entry):
     print('send_forward')
     mqtt_client.send_message("drive_forward", [int(left_speed_entry.get()),
                                                int(right_speed_entry.get())])
 
+
 def send_stop_robot(mqtt_client):
     print("send_stop_robot")
     mqtt_client.send_message("stop_robot")
+
 
 def send_backward(mqtt_client, left_speed_entry, right_speed_entry):
     print("send_backward")
     mqtt_client.send_message("drive_backward", [int(left_speed_entry.get()),
                                                int(right_speed_entry.get())])
 
+
 def send_left(mqtt_client, left_speed_entry, right_speed_entry):
     print("send_left")
     mqtt_client.send_message("drive_left", [int(left_speed_entry.get()),
                                                int(right_speed_entry.get())])
+
+
 def send_right(mqtt_client, left_speed_entry, right_speed_entry):
     print("send_right")
     mqtt_client.send_message("drive_right", [int(left_speed_entry.get()),
                                                int(right_speed_entry.get())])
+
 
 # Quit and Exit button callbacks
 def quit_program(mqtt_client, shutdown_ev3):
