@@ -169,6 +169,7 @@ class Snatch3r(object):
                     print("On the right heading. Distance: ", current_distance)
                     if current_distance <=10:
                         self.stop_robot()
+                        return True
                     else:
                         self.drive_forward(forward_speed, forward_speed)
 
