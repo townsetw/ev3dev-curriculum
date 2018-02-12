@@ -13,6 +13,7 @@
 
 import ev3dev.ev3 as ev3
 import time
+import math
 
 
 class Snatch3r(object):
@@ -149,4 +150,36 @@ class Snatch3r(object):
         """Stops the motors from running"""
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action='brake')
-        self.arm_motor.stop(stop_action= 'brake')
+        self.arm_motor.stop(stop_action='brake')
+
+    def seek_beacon(self):
+        """Look for the IR beacon"""
+        beacon_seeker = ev3.BeaconSeeker(channel=1)
+        forward_speed = 300
+        turn_speed = 100
+
+        while not self.touch_sensor.is_pressed:
+            current_heading = beacon_seeker.heading
+            current_distance = beacon_seeker.distance
+            if current_distance == -128:
+                print("IR Remote not found. Distance is -128")
+                self.drive_forward(turn_speed, -turn_speed)
+            else:
+                if math.fabs(current_heading) < 2:
+                    print("On the right heading. Distance: ", current_distance)
+                    if current_distance == 0:
+                        self.stop_robot()
+                    else:
+                        self.drive_forward(forward_speed, forward_speed)
+
+                elif math.fabs(current_heading) < 10:
+                    print("Adjusting heading: ", current_heading)
+                    if current_heading < 0:
+                        self.drive_forward(-turn_speed, turn_speed)
+                    else:
+                        self.drive_forward(turn_speed, -turn_speed)
+            time.sleep(0.2)
+
+        print("Abandon ship!")
+        self.stop_robot()
+        return False
