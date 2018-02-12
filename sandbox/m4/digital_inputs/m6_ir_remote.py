@@ -109,7 +109,7 @@ def main():
 # Some event handlers have been written for you (ones for the arm).
 # Movement event handlers have not been provided.
 # ----------------------------------------------------------------------
-# TODO: 6. Implement the IR handler callbacks handlers.
+# DONE: 6. Implement the IR handler callbacks handlers.
 
 # ----------------------------------------------------------------------
 # IR Remote callbacks
@@ -144,7 +144,6 @@ def handle_blue_up(button_state, right_motor):
         right_motor.stop(stop_action="brake")
 
 
-
 def handle_blue_down(button_state, right_motor):
 
     if button_state:
@@ -154,11 +153,8 @@ def handle_blue_down(button_state, right_motor):
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
         right_motor.stop(stop_action="brake")
 
-
-
-
-
-# TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
+# DONE: 7. When your program is complete, call over a TA or instructor to sign
+# your checkoff sheet and do a code review.
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
 
@@ -209,4 +205,6 @@ def handle_shutdown(button_state, dc):
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
+
+
 main()
