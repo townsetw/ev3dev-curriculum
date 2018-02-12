@@ -12,7 +12,6 @@ Authors: David Fisher and TYLER, NATHAN, DREW.
 #   If your program says and prints anything at the start change it to print and say "Drive using encoders"
 
 import ev3dev.ev3 as ev3
-import time
 
 
 def main():
@@ -38,10 +37,8 @@ def main():
         if distance_in == 0:
             break
         distance = 90 * distance_in
-        left_motor.run_to_rel_pos(position_sp = distance, speed_sp =
-        left_sp, stop_action = ev3.Motor.STOP_ACTION_BRAKE)
-        right_motor.run_to_rel_pos(position_sp = distance, speed_sp =
-        left_sp, stop_action = ev3.Motor.STOP_ACTION_BRAKE)
+        left_motor.run_to_rel_pos(position_sp=distance, speed_sp=left_sp, stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+        right_motor.run_to_rel_pos(position_sp=distance, speed_sp=left_sp, stop_action=ev3.Motor.STOP_ACTION_BRAKE)
         ev3.Sound.beep().wait()
 
     print("Goodbye!")
@@ -50,6 +47,8 @@ def main():
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
+
+
 main()
 
 # DONE: 3. Add a beep after the drive motors stop (see code below).  Test your
@@ -90,5 +89,3 @@ main()
 # do a code review.
 #
 # Observations you should make, run_to_rel_pos is easier to use since it uses encoders that are independent of speed.
-
-
