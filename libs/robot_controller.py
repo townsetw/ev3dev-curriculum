@@ -100,9 +100,15 @@ class Snatch3r(object):
         green color"""
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action='brake')
+        self.running = False
 
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
 
         print('Goodbye')
         ev3.Sound.speak("Goodbye").wait()
+
+    def loop_forever(self):
+        self.running = True
+        while self.running:
+            time.sleep(0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.

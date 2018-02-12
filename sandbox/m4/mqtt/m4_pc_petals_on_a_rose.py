@@ -46,7 +46,7 @@ def main():
 
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
-    mqtt_client.connect_to_pc()
+    mqtt_client.connect_to_ev3()
 
 
     root = tkinter.Tk()
@@ -94,7 +94,8 @@ def guess(mqtt_client, number_to_guess_entry):
 
 def set_num_dice(mqtt_client, num_dice_entry):
     """ Calls a method on EV3 called 'set_number_of_dice' passing in an int from the num_dice_entry. """
-    # TODO: 6. Write the line of code necessary to implement this method based on the doc string's description.
+    # DONE: 6. Write the line of code necessary to implement this method based
+    # on the doc string's description.
     mqtt_client.send_message("set_number_of_dice", [int(num_dice_entry)])
 
 
