@@ -120,21 +120,26 @@ class Snatch3r(object):
                 0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.
 
     def drive_forward(self, left_speed_entry, right_speed_entry):
+        """Moves the robot forward at the specified speed"""
         self.left_motor.run_forever(speed_sp=left_speed_entry)
         self.right_motor.run_forever(speed_sp=right_speed_entry)
 
     def drive_backward(self, left_speed_entry, right_speed_entry):
+        """Moves the robot backward at the specified speed"""
         self.left_motor.run_forever(speed_sp=-left_speed_entry)
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
 
     def drive_left(self, left_speed_entry, right_speed_entry):
-        self.left_motor.run_forever(speed_sp=-left_speed_entry)
-        self.right_motor.run_forever(speed_sp=right_speed_entry)
-
-    def drive_right(self, left_speed_entry, right_speed_entry):
+        """Moves the robot left at the specified speed"""
         self.left_motor.run_forever(speed_sp=left_speed_entry)
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
 
+    def drive_right(self, left_speed_entry, right_speed_entry):
+        """Moves the robot right at the specified speed"""
+        self.left_motor.run_forever(speed_sp=-left_speed_entry)
+        self.right_motor.run_forever(speed_sp=right_speed_entry)
+
     def stop_robot(self):
+        """Stops the motors from running"""
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action='brake')
