@@ -149,3 +149,4 @@ class Snatch3r(object):
         """Stops the motors from running"""
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action='brake')
+        self.arm_motor.stop(stop_action= 'brake')
