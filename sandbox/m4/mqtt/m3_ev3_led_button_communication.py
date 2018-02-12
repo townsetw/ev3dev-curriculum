@@ -67,12 +67,14 @@ import mqtt_remote_method_calls as com
 #     else:
 #         ev3.Leds.set_color(led_side, led_color)
 
+
 class MyDelegate(object):
 
     def __init__(self):
         self.running = True
 
-    def set_led(self, led_side_string, led_color_string):
+    @staticmethod
+    def set_led(led_side_string, led_color_string):
         print("Received: {} {}".format(led_side_string, led_color_string))
         led_side = None
         if led_side_string == "left":
@@ -111,7 +113,6 @@ def main():
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_pc()
-
 
     # Buttons on EV3 (these obviously assume TO DO: 3. is done)
     btn = ev3.Button()
