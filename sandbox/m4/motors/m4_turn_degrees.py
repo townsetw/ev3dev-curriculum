@@ -77,7 +77,8 @@ main()
 #   Beep after the turn is complete via a beep in this module (tests to make sure the library is blocking)
 #   When the library method is complete have all team members VCS update and test using their own m4_turn_degrees.py
 
-# TODO: 5. Formally test your work. When you think you have the problem complete run these tests:
+# DONE: 5. Formally test your work. When you think you have the problem
+# complete run these tests:
 #     45 degrees turns left 45 degrees
 #    -45 degrees turn right 45 degrees putting you back where you started
 #     90 degrees turns left 90 degrees
