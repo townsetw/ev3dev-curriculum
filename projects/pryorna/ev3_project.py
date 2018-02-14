@@ -1,12 +1,15 @@
 """Final Project Idea: Frogger    WHY IS THIS THE THEME?? Because it was a
 fun game that I played as a kid on my playstation.
+
 Having the robot follow a line (black/white) with obstacles slowly going
-back and forth that may or may not get in the robots way.
+back and forth that may or may not get in the robots way. AUTONOMUS (MODE1):
 If the IR sensor (analog sensor) senses the object a certain distance in front of
-it, the robot stops and waits for human interaction to 'continue?' and the user either
-clicks the 'continue?' button on python (Tkinter/MQTT) OR the 'enter' button
-on the computer keyboard (MQTT) OR by pressing the touch sensor on the
-robot (digital input). Hitting the backspace button on the mindstorm brainends the game immediately."""
+it, OR the user presses the touch sensor (digital input) the robot stops and
+waits for human
+interaction to start the TELEOP (MODE2) by using controls/button on the
+computer (Tkinter/MQTT) to move the robot to the end of the level. Hitting the
+backspace button on the mindstorm brain ends the game immediately
+(during AUTONOMUS)."""
 
 import mqtt_remote_method_calls as com
 import ev3dev.ev3 as ev3
@@ -17,9 +20,13 @@ sensor = ev3.InfraredSensor()
 
 def main():
     print("Let the games begin!")
-    ev3.Sound.speak("Starting Frogger Game").wait()
+    #ev3.Sound.speak("Starting Frogger Game").wait()
 
     main_follow_the_line()
+    #robot = robo.Snatch3r()
+    #mqtt_client = com.MqttClient(robot)
+    #mqtt_client.connect_to_pc()
+    #robot.loop_forever()
 
 def main_follow_the_line():
 
@@ -58,6 +65,8 @@ def follow_the_line(robot, black_level):
         # Optional extra - For a harder challenge could you drive on the black line and handle left or right turns?
 
         while x == 2:
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
             if robot.color_sensor.reflected_light_intensity > black_level + 20:
                 robot.turn_degrees(10, 900)
             else:
@@ -69,12 +78,18 @@ def follow_the_line(robot, black_level):
             if robot.touch_sensor.is_pressed:
                 break
             if btn.backspace:
+                robot.stop_robot()
                 ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
                 ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
                 ev3.Sound.speak("Game Over").wait()
+                break
             time.sleep(0.01)
 
         robot.stop_robot()
+        robot = robo.Snatch3r()
+        mqtt_client = com.MqttClient(robot)
+        mqtt_client.connect_to_pc()
+        robot.loop_forever()
         ev3.Sound.speak("You win!")
 
     #MOTORS
@@ -99,7 +114,7 @@ def mqtt_ev3_main():
     robot = robo.Snatch3r()
     mqtt_client = com.MqttClient(robot)
     mqtt_client.connect_to_pc()
-    #robot.loop_forever()
+    robot.loop_forever()
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
