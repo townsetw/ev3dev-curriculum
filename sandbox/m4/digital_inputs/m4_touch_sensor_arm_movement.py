@@ -27,26 +27,26 @@ def main():
     touch_sensor = ev3.TouchSensor()
     assert touch_sensor
 
-    #RESET ARM
-    #arm_motor.run_forever(speed_sp=MAX_SPEED)
-    #arm_motor.run_to_rel_pos(position_sp=-14.2*360)
-    #arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
+    # RESET ARM
+    # arm_motor.run_forever(speed_sp=MAX_SPEED)
+    # arm_motor.run_to_rel_pos(position_sp=-14.2*360)
+    # arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     while True:
         command_to_run = input("Enter c (for calibrate), u (for up), d (for down), or q (for quit): ")
         if command_to_run == 'c':
             print("Calibrate the arm")
-            #print("TO DO: 3 is to delete this print statement, uncomment the
+            # print("TO DO: 3 is to delete this print statement, uncomment the
             # line below, and implement that function.")
             arm_calibration(arm_motor, touch_sensor)
         elif command_to_run == 'u':
             print("Move the arm to the up position")
-            #print("TO DO: 4 is to delete this print statement, uncomment
+            # print("TO DO: 4 is to delete this print statement, uncomment
             # the line below, and implement that function.")
             arm_up(arm_motor, touch_sensor)
         elif command_to_run == 'd':
             print("Move the arm to the down position")
-            #print("TO DO: 5 is to delete this print statement, uncomment
+            # print("TO DO: 5 is to delete this print statement, uncomment
             # the line below, and implement that function.")
             arm_down(arm_motor)
         elif command_to_run == 'q':
@@ -82,7 +82,7 @@ def arm_calibration(arm_motor, touch_sensor):
 
     # Code that attempts to do this task but has MANY bugs (nearly 1 on every line).  Fix them!
 
-    arm_motor.run_forever(speed_sp = MAX_SPEED)
+    arm_motor.run_forever(speed_sp=MAX_SPEED)
 
     while not touch_sensor.is_pressed:
         time.sleep(0.01)
@@ -138,7 +138,8 @@ def arm_down(arm_motor):
     arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
     ev3.Sound.beep()
 
-    # TODO: 6. After you fix the bugs in the three arm movement commands demo your code to a TA or instructor.
+    # DONE: 6. After you fix the bugs in the three arm movement commands demo
+    # your code to a TA or instructor.
     #
     # Observations you should make, the TouchSensor is easy to use, but the motor commands are still a little bit
     #   tricky.  It is neat that the same motor API works for both the wheels and the arm.
