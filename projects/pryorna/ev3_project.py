@@ -10,12 +10,12 @@ robot (digital input). Hitting the backspace button on the mindstorm brainends t
 
 import mqtt_remote_method_calls as com
 import ev3dev.ev3 as ev3
+
 import robot_controller as robo
 import time
 sensor = ev3.InfraredSensor()
 
 def main():
-    #robot = robo.Snatch3r
     print("Let the games begin!")
     ev3.Sound.speak("Starting Frogger Game").wait()
 
@@ -68,6 +68,11 @@ def follow_the_line(robot, black_level):
                 # Get continue_button to pop up here using function
             if robot.touch_sensor.is_pressed:
                 break
+            if btn.backspace:
+                ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+                ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+                ev3.Sound.speak("Game Over").wait()
+            time.sleep(0.01)
 
         robot.stop_robot()
         ev3.Sound.speak("You win!")
@@ -83,11 +88,6 @@ def follow_the_line(robot, black_level):
     #CHANGE UP BELOW FOR TURNING OFF PROGRAM WITH BACKSPACE
 
 btn = ev3.Button() #button on the mindstorm brain
-if btn.backspace:
-    ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
-    ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-    ev3.Sound.speak("Game Over").wait()
-time.sleep(0.01)
 
 #DIGITAL INPUTS
 touch_sensor = ev3.TouchSensor()
