@@ -41,6 +41,11 @@ def main():
     e_button.grid(row=6, column=2)
     e_button['command'] = (lambda: quit_program(mqtt_client, True))
 
+    stop_button = ttk.Button(main_frame, text="Stop")
+    stop_button.grid(row=3, column=2)
+    stop_button['command'] = lambda: send_stop_robot(mqtt_client)
+    root.bind('<e>', lambda event: send_stop_robot(mqtt_client))
+
     root.mainloop()
 
 
@@ -51,6 +56,11 @@ def main():
 def send_continue_robot(mqtt_client):
     print("send_continue_robot")
     mqtt_client.send_message("do_continue_robot")
+
+
+def send_stop_robot(mqtt_client):
+    print("send_stop_robot")
+    mqtt_client.send_message("stop_robot")
 
 # Quit and Exit button callbacks
 def quit_program(mqtt_client, shutdown_ev3):
