@@ -48,8 +48,9 @@ def main():
     speed_label = ttk.Label(main_frame, text="DRIVE SPEED")
     speed_label.grid(row=0, column=3)
 
-    speed_label = ttk.Entry(main_frame, text="Green", width=11)
-    speed_label.grid(row=1, column=3)
+    speed_entry = ttk.Entry(main_frame, text="Green", width=11)
+    speed_entry.insert(0,0)
+    speed_entry.grid(row=1, column=3)
 
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=4, column=3)
@@ -59,6 +60,15 @@ def main():
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=6, column=3)
+
+    left_turning = ttk.Button(main_frame, text="Turn Left")
+    left_turning.grid(row=5, column=0)
+
+    right_turning = ttk.Button(main_frame, text="Turn Right")
+    right_turning.grid(row=5, column=4)
+
+    pick_up_trash_button = ttk.Button(main_frame, text="Pick Up Trash")
+    pick_up_trash_button.grid(row=9, column=0)
 
 
 
