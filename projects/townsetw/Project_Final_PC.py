@@ -40,11 +40,25 @@ def main():
     main_frame = ttk.Frame(root, padding=20, relief='raised')
     main_frame.grid()
 
-    center_button_label = ttk.Label(main_frame, text="DRIVE SPEED")
-    center_button_label.grid(row=0, column=3)
+    lights_button_label = ttk.Label(main_frame, text="Lights")
+    lights_button_label.grid(row=0, column=0)
+    lights_button = ttk.Checkbutton(main_frame)
+    lights_button.grid(row=1, column=0)
 
-    center_button = ttk.Entry(main_frame, text="Green", width=10)
-    center_button.grid(row=1, column=3)
+    speed_label = ttk.Label(main_frame, text="DRIVE SPEED")
+    speed_label.grid(row=0, column=3)
+
+    speed_label = ttk.Entry(main_frame, text="Green", width=11)
+    speed_label.grid(row=1, column=3)
+
+    forward_button = ttk.Button(main_frame, text="Forward")
+    forward_button.grid(row=4, column=3)
+
+    stop_button = ttk.Button(main_frame, text="Stop")
+    stop_button.grid(row=5, column=3)
+
+    back_button = ttk.Button(main_frame, text="Back")
+    back_button.grid(row=6, column=3)
 
 
 
