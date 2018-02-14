@@ -15,7 +15,7 @@ import time
 sensor = ev3.InfraredSensor()
 
 def main():
-    robot = robo.Snatch3r
+    #robot = robo.Snatch3r
     print("Let the games begin!")
     ev3.Sound.speak("Starting Frogger Game").wait()
 
