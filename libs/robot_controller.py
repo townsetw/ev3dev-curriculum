@@ -179,6 +179,12 @@ class Snatch3r(object):
                         self.drive_forward(turn_speed, -turn_speed)
             time.sleep(0.2)
 
-        print("Abandon ship!")
-        self.stop_robot()
-        return False
+    def send_continue_robot(self):
+
+
+    def continue_follow_the_line(self):
+
+
+        #print("Abandon ship!")
+        #self.stop_robot()
+        #return False

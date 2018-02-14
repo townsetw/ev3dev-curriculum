@@ -2,17 +2,17 @@
 fun game that I played as a kid on my playstation.
 Having the robot follow a line (black/white) with obstacles slowly going
 back and forth that may or may not get in the robots way.
-If the IR sensor (analog) senses the object a certain distance in front of
+If the IR sensor (analog sensor) senses the object a certain distance in front of
 it, the robot stops and waits for human interaction to 'continue?' and the user either
-clicks the 'okay' button on python (Tkinter) OR the 'up' button on the
-mindstorm brain attached to the robot (MQTT) OR by pressing the touch sensor on the
+clicks the 'continue?' button on python (Tkinter/MQTT) OR the 'enter' button
+on the computer keyboard (MQTT) OR by pressing the touch sensor on the
 robot (digital input). Hitting the backspace button on the mindstorm brain
 ends the game immediately."""
 import ev3dev.ev3 as ev3
-import tkinter
-from tkinter import ttk
 import mqtt_remote_method_calls as com
-
+import robot_controller as robo
+import time
+sensor = ev3.InfraredSensor()
 
 def main():
     print("Let the games begin!")
@@ -25,16 +25,16 @@ def main():
     assert arm_motor.connected
     assert left_motor.connected
     assert right_motor.connected
-    assert touch_sensor
+
+    main_follow_the_line()
 
     #MOTORS
-    left_motor.run_forever(speed_sp = 600)
-    right_motor.run_forever(speed_sp= 600)
 
     left_motor.stop(stop_action ="brake") #Read comment on line 30
     right_motor.stop(stop_action="brake") #OR use robot.stop_robot()
 
-    arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
+    arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor
+    #  finishes running
 
     #CHANGE UP BELOW FOR TURNING OFF PROGRAM WITH BACKSPACE
     btn = ev3.Button() #button on the mindstorm brain
@@ -48,23 +48,66 @@ def main():
     if touch_sensor.is_pressed:
         print("stuff") #CHANGE THIS LATER
 
-    #MQTT (Make sure to create a separate program for EV3)
-    mqtt_client = com.MqttClient()
-    mqtt_client.connect_to_ev3()
-    root = tkinter.Tk()
-    root.title("MQTT Remote")
+'''Below is the code from m2_follow_a_line'''
 
-    main_frame = ttk.Frame(root, padding=20, relief='raised')
-    main_frame.grid()
 
-    continue_button = ttk.Button(main_frame, text="Click to Continue OR "
-                                                  "press the ENTER key on "
-                                                  "your keyboard")
-    continue_button.grid(row=3, column=1)
-    continue_button['command'] = lambda: continue_robot(mqtt_client)
-    root.bind('<enter>', lambda event: continue_robot(mqtt_client))
 
-def continue_robot(mqtt_client):
-    print("continue_robot")
-    mqtt_client.send_message("send_continue_robot") #make
-    # send_continue_robot on robot_controller!!
+def main_follow_the_line():
+
+    white_level = 98
+    black_level = 3
+    robot = robo.Snatch3r()
+
+    while True:
+        command_to_run = input("Enter 's' to start the game: ")
+        if command_to_run == 's':
+            print("Follow the line.")
+            follow_the_line(robot, black_level)
+        elif command_to_run == 'q':
+            break
+        else:
+            print(command_to_run, "is not a known command. Please enter a valid choice.")
+
+    print("Goodbye!")
+
+
+def follow_the_line(robot, black_level):
+    """
+    The robot follows the black line until the touch sensor is pressed.
+    You will need a black line track to test your code
+    When the touch sensor is pressed, line following ends, the robot stops, and control is returned to main.
+
+    Type hints:
+      :type robot: robo.Snatch3r
+      :type black_level: int
+    """
+    x = 2
+    # DONE: 5. Use the calibrated values for white and black to calculate a
+    # light threshold to determine if your robot
+    # should drive straight or turn to the right.  You will need to test and refine your code until it works well.
+    # Optional extra - For a harder challenge could you drive on the black line and handle left or right turns?
+
+    while x == 2:
+        if robot.color_sensor.reflected_light_intensity > black_level + 20:
+            robot.turn_degrees(10, 900)
+        else:
+            robot.drive_forward(900, 900)
+        if sensor.proximity <= 10:
+            robot.stop_robot()
+            break #Get continue_button to pop up here using function
+        if robot.touch_sensor.is_pressed:
+            break
+
+    robot.stop_robot()
+    ev3.Sound.speak("You win!")
+
+def tkinter_run():
+    robot = robo.Snatch3r()
+    mqtt_client = com.MqttClient(robot)
+    mqtt_client.connect_to_pc()
+    robot.loop_forever()
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()
