@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """"THIS is the pc portion of the project - Tyler Townsend"""
 
 
@@ -21,10 +22,34 @@ class MyDelegate(object):
         self.display_label.configure(text=message_to_display)
 
 def main():
+    print("--------------------------------------------")
+    print(" Controlling the Player")
+    print(" Press Back to exit when done.")
+    print("--------------------------------------------")
 
-    my_delegate = MyDelegate()
-    mqtt_client = com.MqttClient(my_delegate)
-    mqtt_client.connect_to_pc()
+
+    #my_delegate = MyDelegate()
+    #mqtt_client = com.MqttClient(my_delegate)
+    #mqtt_client.connect_to_pc()
+
+
+
+    root = tkinter.Tk()
+    root.title("Controlling the player")
+
+    main_frame = ttk.Frame(root, padding=20, relief='raised')
+    main_frame.grid()
+
+    center_button_label = ttk.Label(main_frame, text="DRIVE SPEED")
+    center_button_label.grid(row=0, column=3)
+
+    center_button = ttk.Entry(main_frame, text="Green", width=10)
+    center_button.grid(row=1, column=3)
+
+
+
+
+    root.mainloop()
 
 
 main()
