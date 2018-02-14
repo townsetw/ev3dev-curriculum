@@ -17,16 +17,14 @@ import ev3dev.ev3 as ev3
 import robot_controller as robo
 import time
 sensor = ev3.InfraredSensor()
+btn = ev3.Button()
+tkfont = "bold"
 
 def main():
     print("Let the games begin!")
     #ev3.Sound.speak("Starting Frogger Game").wait()
 
     main_follow_the_line()
-    #robot = robo.Snatch3r()
-    #mqtt_client = com.MqttClient(robot)
-    #mqtt_client.connect_to_pc()
-    #robot.loop_forever()
 
 def main_follow_the_line():
 
@@ -89,32 +87,12 @@ def follow_the_line(robot, black_level):
         robot = robo.Snatch3r()
         mqtt_client = com.MqttClient(robot)
         mqtt_client.connect_to_pc()
+        if sensor.proximity <= 5:
+            robot.stop_robot()
+            ev3.Sound.speak("Game over.")
+
         robot.loop_forever()
         ev3.Sound.speak("You win!")
-
-    #MOTORS
-
-    #left_motor.stop(stop_action ="brake") #Read comment on line 30
-    #right_motor.stop(stop_action="brake") #OR use robot.stop_robot()
-
-    #arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor
-    #  finishes running
-
-    #CHANGE UP BELOW FOR TURNING OFF PROGRAM WITH BACKSPACE
-
-btn = ev3.Button() #button on the mindstorm brain
-
-#DIGITAL INPUTS
-touch_sensor = ev3.TouchSensor()
-if touch_sensor.is_pressed:
-    print("stuff") #CHANGE THIS LATER
-
-
-def mqtt_ev3_main():
-    robot = robo.Snatch3r()
-    mqtt_client = com.MqttClient(robot)
-    mqtt_client.connect_to_pc()
-    robot.loop_forever()
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
