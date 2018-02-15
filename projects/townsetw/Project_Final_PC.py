@@ -23,21 +23,21 @@ class MyDelegate(object):
 
 def main():
     print("--------------------------------------------")
-    print(" Controlling the Player")
+    print(" Controlling the Recycle Bot")
     print(" Press Back to exit when done.")
     print("--------------------------------------------")
 
 
     #my_delegate = MyDelegate()
-    #mqtt_client = com.MqttClient(my_delegate)
-    #mqtt_client.connect_to_pc()
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
 
 
 
     root = tkinter.Tk()
-    root.title("Controlling the player")
+    root.title("Recycle Bot Control")
 
-    main_frame = ttk.Frame(root, padding=20, relief='raised')
+    main_frame = ttk.Frame(root, padding=40, relief='raised')
     main_frame.grid()
 
     lights_button_label = ttk.Label(main_frame, text="Lights")
@@ -54,6 +54,8 @@ def main():
 
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=4, column=3)
+    forward_button['command'] = lambda: drive_forward(mqtt_client, speed_entry)
+    root.bind('<Up>', lambda event: drive_forward(mqtt_client, speed_entry))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=5, column=3)
@@ -70,10 +72,22 @@ def main():
     pick_up_trash_button = ttk.Button(main_frame, text="Pick Up Trash")
     pick_up_trash_button.grid(row=9, column=0)
 
+    deposit_trash_button = ttk.Button(main_frame, text="Deposit Trash")
+    deposit_trash_button.grid(row=10, column=0)
 
+    quit_button = ttk.Button(main_frame, text="Quit")
+    quit_button.grid(row=9, column=4)
 
+    exit_button = ttk.Button(main_frame, text="Exit")
+    exit_button.grid(row=10, column=4)
 
     root.mainloop()
+
+
+def drive_forward(mqtt_client, speed_entry):
+    print('send_forward')
+    mqtt_client.send_message("drive_forward", [int(speed_entry.get()),
+                                               int(speed_entry.get())])
 
 
 main()
