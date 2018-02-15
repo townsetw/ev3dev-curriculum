@@ -136,12 +136,12 @@ class Snatch3r(object):
         self.left_motor.run_forever(speed_sp=-left_speed_entry)
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
 
-    def drive_left(self, left_speed_entry, right_speed_entry):
+    def drive_right(self, left_speed_entry, right_speed_entry):
         """Moves the robot left at the specified speed"""
         self.left_motor.run_forever(speed_sp=left_speed_entry)
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
 
-    def drive_right(self, left_speed_entry, right_speed_entry):
+    def drive_left(self, left_speed_entry, right_speed_entry):
         """Moves the robot right at the specified speed"""
         self.left_motor.run_forever(speed_sp=-left_speed_entry)
         self.right_motor.run_forever(speed_sp=right_speed_entry)

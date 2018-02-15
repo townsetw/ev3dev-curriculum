@@ -1,4 +1,4 @@
-"""Final Project Idea: Frogger    WHY IS THIS THE THEME?? Because it was a
+"""Final Project Idea: Frogger 2.0    Because it was a
 fun game that I played as a kid on my playstation.
 
 Having the robot follow a line (black/white) with obstacles slowly going
@@ -18,17 +18,19 @@ import robot_controller as robo
 import time
 sensor = ev3.InfraredSensor()
 btn = ev3.Button()
-tkfont = "bold"
+
 
 def main():
+    """Speaks at the beginning and goes into the main_follow_the_line
+    function"""
     print("Let the games begin!")
-    #ev3.Sound.speak("Starting Frogger Game").wait()
+    ev3.Sound.speak("Starting Frogger 2.0 Game").wait()
 
     main_follow_the_line()
 
 def main_follow_the_line():
+    """Input comment here"""
 
-    white_level = 98
     black_level = 3
     robot = robo.Snatch3r()
 
@@ -42,26 +44,17 @@ def main_follow_the_line():
             break
         else:
             print(command_to_run,
-            "is not a known command. Please enter a valid choice.")
+            "--Please enter either 's' or 'q'--")
 
-    print("Goodbye!")
+    print("Game over!")
 
 def follow_the_line(robot, black_level):
         """
-        The robot follows the black line until the touch sensor is pressed.
-        You will need a black line track to test your code
-        When the touch sensor is pressed, line following ends, the robot stops, and control is returned to main.
-
-        Type hints:
-          :type robot: robo.Snatch3r
-          :type black_level: int
+        Follows the black line until either an object gets a certain
+        distance in front of it or the touch sensor is pressed or the
+        backspace button on the lego mindstorm brain is pressed.
         """
         x = 2
-        # DONE: 5. Use the calibrated values for white and black to calculate a
-        # light threshold to determine if your robot
-        # should drive straight or turn to the right.  You will need to test and refine your code until it works well.
-        # Optional extra - For a harder challenge could you drive on the black line and handle left or right turns?
-
         while x == 2:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
@@ -69,10 +62,9 @@ def follow_the_line(robot, black_level):
                 robot.turn_degrees(10, 900)
             else:
                 robot.drive_forward(900, 900)
-            if sensor.proximity <= 10:
+            if sensor.proximity <= 15:
                 robot.stop_robot()
                 break
-                # Get continue_button to pop up here using function
             if robot.touch_sensor.is_pressed:
                 break
             if btn.backspace:
@@ -87,12 +79,13 @@ def follow_the_line(robot, black_level):
         robot = robo.Snatch3r()
         mqtt_client = com.MqttClient(robot)
         mqtt_client.connect_to_pc()
+
         if sensor.proximity <= 5:
             robot.stop_robot()
             ev3.Sound.speak("Game over.")
 
         robot.loop_forever()
-        ev3.Sound.speak("You win!")
+        ev3.Sound.speak("Game over")
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
