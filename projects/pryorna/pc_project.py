@@ -4,7 +4,8 @@ import tkinter as tk
 import mqtt_remote_method_calls as com
 
 def main():
-    """Input comment here"""
+    """Creates the commands for the gamepad, as well as the locations of
+    those commands either on the keyboard or in the Tkinter window."""
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
 
