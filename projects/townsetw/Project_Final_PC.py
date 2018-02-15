@@ -36,8 +36,8 @@ def main():
 
     lights_button_label = ttk.Label(main_frame, text="Lights")
     lights_button_label.grid(row=0, column=0)
-    lights_button = ttk.Checkbutton(main_frame, onvalue=turn_on_lights(
-        mqtt_client), offvalue=turn_off_lights(mqtt_client))
+    lights_button = ttk.Checkbutton(main_frame, onvalue=1,
+                                    offvalue=0)
     lights_button.grid(row=1, column=0)
     root.bind('l', lambda event: turn_on_lights)
     root.bind('o', lambda event: turn_off_lights)
