@@ -27,12 +27,8 @@ def main():
     print(" Press Back to exit when done.")
     print("--------------------------------------------")
 
-
-    #my_delegate = MyDelegate()
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
-
-
 
     root = tkinter.Tk()
     root.title("Recycle Bot Control")
@@ -75,11 +71,23 @@ def main():
     deposit_trash_button = ttk.Button(main_frame, text="Deposit Trash")
     deposit_trash_button.grid(row=10, column=0)
 
+    button_label = ttk.Label(main_frame, text="  Button messages from EV3  ")
+    button_label.grid(row=13, column=3)
+
+    button_message = ttk.Label(main_frame, text="--")
+    button_message.grid(row=14, column=3)
+
     quit_button = ttk.Button(main_frame, text="Quit")
     quit_button.grid(row=9, column=4)
+    quit_button['command'] = (lambda: quit_program(mqtt_client, False))
+    root.bind('q', lambda event: quit_program(mqtt_client, False))
 
     exit_button = ttk.Button(main_frame, text="Exit")
     exit_button.grid(row=10, column=4)
+    exit_button['command'] = (lambda: quit_program(mqtt_client, True))
+    root.bind('e', lambda event: quit_program(mqtt_client, True))
+
+
 
     root.mainloop()
 
@@ -89,5 +97,12 @@ def drive_forward(mqtt_client, speed_entry):
     mqtt_client.send_message("drive_forward", [int(speed_entry.get()),
                                                int(speed_entry.get())])
 
+
+def quit_program(mqtt_client, shutdown_ev3):
+    if shutdown_ev3:
+        print("shutdown")
+        mqtt_client.send_message("shutdown")
+    mqtt_client.close()
+    exit()
 
 main()
