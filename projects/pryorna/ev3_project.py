@@ -1,5 +1,4 @@
-"""Final Project Idea: Frogger 2.0    Because it was a
-fun game that I played as a kid on my playstation.
+"""Final Project Idea: Frogger 2.0
 
 Having the robot follow a line (black/white) with obstacles slowly going
 back and forth that may or may not get in the robots way. AUTONOMUS (MODE1):
@@ -8,8 +7,7 @@ it, OR the user presses the touch sensor (digital input) the robot stops and
 waits for human
 interaction to start the TELEOP (MODE2) by using controls/button on the
 computer (Tkinter/MQTT) to move the robot to the end of the level. Hitting the
-backspace button on the mindstorm brain ends the game immediately
-(during AUTONOMUS)."""
+backspace button on the mindstorm brain ends the game immediately."""
 
 import mqtt_remote_method_calls as com
 import ev3dev.ev3 as ev3
@@ -22,14 +20,16 @@ btn = ev3.Button()
 
 def main():
     """Speaks at the beginning and goes into the main_follow_the_line
-    function"""
+    function."""
     print("Let the games begin!")
     ev3.Sound.speak("Starting Frogger 2.0 Game").wait()
 
     main_follow_the_line()
 
+
 def main_follow_the_line():
-    """Input comment here"""
+    """Waits for the user to press either the 's' or 'q' keys, and goes to
+    the follow_the_line function if 's' is pressed."""
 
     black_level = 3
     robot = robo.Snatch3r()
@@ -38,15 +38,15 @@ def main_follow_the_line():
         command_to_run = input(
             "Enter 's' to start the game or 'q' to quit: ")
         if command_to_run == 's':
-            print("Follow the line.")
+            print("Lets begin! Good luck!")
             follow_the_line(robot, black_level)
         elif command_to_run == 'q':
             break
         else:
-            print(command_to_run,
-            "--Please enter either 's' or 'q'--")
+            print(command_to_run, "--Please enter either 's' or 'q'--")
 
     print("Game over!")
+
 
 def follow_the_line(robot, black_level):
         """
@@ -75,19 +75,18 @@ def follow_the_line(robot, black_level):
                 break
             time.sleep(0.01)
 
+
         robot.stop_robot()
         robot = robo.Snatch3r()
         mqtt_client = com.MqttClient(robot)
         mqtt_client.connect_to_pc()
 
-        if sensor.proximity <= 5:
-            robot.stop_robot()
-            ev3.Sound.speak("Game over.")
+        #if sensor.proximity <= 5:
+        #    robot.stop_robot()
+        #    ev3.Sound.speak("Game over.")
 
-        robot.loop_forever()
-        ev3.Sound.speak("Game over")
+        #robot.loop_forever()
+        #ev3.Sound.speak("Game over")
 
-# ----------------------------------------------------------------------
-# Calls  main  to start the ball rolling.
-# ----------------------------------------------------------------------
+
 main()
