@@ -19,6 +19,12 @@ def main():
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
-    root.title('Maze Runner: Click the start button to begin, and when robot'
-               'stops press button to turn it left right or backwards. When '
-               'the Treasure is found, Press the Treasure found button.')
+    root.title('Maze Runner Controller: Click the start button to begin, '
+               'and when robot stops press button to turn it left right or '
+               'backwards. When the Treasure is found, Press the Treasure '
+               'found button.')
+
+    mainframe = ttk.Frame(root, padding=30, relief='raised')
+    mainframe.grid
+
+    forward =
