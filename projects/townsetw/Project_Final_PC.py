@@ -58,12 +58,20 @@ def main():
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=5, column=3)
+    stop_button['command'] = lambda: stop_robot(mqtt_client)
+    root.bind('<space>', lambda event: stop_robot(mqtt_client))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=6, column=3)
+    back_button['command'] = lambda: drive_backwards(mqtt_client, speed_entry)
+    root.bind('<Down>', lambda event: drive_backwards(mqtt_client,
+                                                      speed_entry))
 
     left_turning = ttk.Button(main_frame, text="Turn Left")
     left_turning.grid(row=5, column=0)
+    left_turning['command'] = lambda: turn_left(mqtt_client, speed_entry)
+    root.bind('<Left>', lambda event: turn_left(mqtt_client,
+                                                      speed_entry))
 
     right_turning = ttk.Button(main_frame, text="Turn Right")
     right_turning.grid(row=5, column=4)
@@ -94,7 +102,7 @@ def main():
 
 
 def drive_forward(mqtt_client, speed_entry):
-    print('send_forward')
+    print('Driving Forwards')
     mqtt_client.send_message("drive_forward", [int(speed_entry.get()),
                                                int(speed_entry.get())])
 
@@ -108,6 +116,22 @@ def turn_on_off_lights(mqtt_client, value):
         print('lights are off')
         mqtt_client.send_message("turn_off_lights")
 
+
+def stop_robot(mqtt_client):
+    print("Stopping Robot")
+    mqtt_client.send_message("stop_robot")
+
+
+def drive_backwards(mqtt_client, speed_entry):
+    print("Driving Backwards")
+    mqtt_client.send_message("drive_backward", [int(speed_entry.get()),
+                                                int(speed_entry.get())])
+
+
+def turn_left(mqtt_client, speed_entry):
+    print("Turning Left")
+    mqtt_client.send_message("drive_left", [int(speed_entry.get()),
+                                            int(speed_entry.get())])
 
 
 def quit_program(mqtt_client, shutdown_ev3):
