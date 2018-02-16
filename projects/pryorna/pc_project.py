@@ -79,36 +79,47 @@ def main():
 # ----------------------------------------------------------------------
 
 def send_stop_robot(mqtt_client):
-    """Callbacks the stop button on the computer gamepad."""
+    """Callbacks the stop button on the computer gamepad. The mqtt_client
+    argument connects the computer to the robot."""
     print("send_stop_robot")
     mqtt_client.send_message("stop_robot")
 
 def send_forward(mqtt_client, left_speed_entry, right_speed_entry):
-    """Callbacks the forward button on the computer gamepad."""
+    """Callbacks the forward button on the computer gamepad with given
+    left and right speeds. The mqtt_client
+    argument connects the computer to the robot."""
     print('send_forward')
     mqtt_client.send_message("drive_forward", [int(left_speed_entry.get()),
                                                int(right_speed_entry.get())])
 
 def send_backward(mqtt_client, left_speed_entry, right_speed_entry):
-    """Callbacks the backward button on the computer gamepad."""
+    """Callbacks the backward button on the computer gamepad with given
+    left and right speeds. The mqtt_client
+    argument connects the computer to the robot."""
     print("send_backward")
     mqtt_client.send_message("drive_backward", [int(left_speed_entry.get()),
                                                 int(right_speed_entry.get())])
 
 def send_left(mqtt_client, left_speed_entry, right_speed_entry):
-    """Callbacks the left button on the computer gamepad."""
+    """Callbacks the left button on the computer gamepad with given left
+    and right speeds. The mqtt_client
+    argument connects the computer to the robot."""
     print("send_left")
     mqtt_client.send_message("drive_left", [int(left_speed_entry.get()),
                                             int(right_speed_entry.get())])
 
 def send_right(mqtt_client, left_speed_entry, right_speed_entry):
-    """Callbacks the right button on the computer gamepad."""
+    """Callbacks the right button on the computer gamepad with given left
+    and right speeds. The mqtt_client
+    argument connects the computer to the robot."""
     print("send_right")
     mqtt_client.send_message("drive_right", [int(left_speed_entry.get()),
                                              int(right_speed_entry.get())])
 
 def quit_program(mqtt_client, shutdown_ev3):
-    """Callbacks the quit button on the computer gamepad."""
+    """Callbacks the quit button on the computer gamepad. The mqtt_client
+    argument connects the computer to the robot. The shutdown_ev3 argument
+    is a boolean that when True the robot 'shuts down'."""
     if shutdown_ev3:
         print("shutdown")
         mqtt_client.send_message("shutdown")
@@ -134,7 +145,7 @@ class Tkintercount(tkinter.Tk):
         """Uses an argument when whatever number you put into the
         'countdown' function, the Tkinter window that is created will count
         down from that starting number. Once the timer reaches 0,
-        the motors stop and the game ends."""
+        the motors stops and the game ends."""
         if remains is not None:
             self.remains = remains
 

@@ -52,8 +52,9 @@ def follow_the_line(robot, black_level):
         """
         Follows the black line until either an object gets a certain
         distance in front of it or the touch sensor is pressed or the
-        backspace button on the lego mindstorm brain is pressed.
-        """
+        backspace button on the lego mindstorm brain is pressed. Arguments
+        requre a robot set to the Snatch3r class, and the black_level
+        percentage that the robot's light sensor is capable of seeing."""
         x = 2
         while x == 2:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
