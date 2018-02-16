@@ -44,7 +44,6 @@ def main():
     lights_button['command'] = lambda: turn_on_off_lights(mqtt_client,
                                                           light_button_observer.get())
 
-
     speed_label = ttk.Label(main_frame, text="DRIVE SPEED")
     speed_label.grid(row=0, column=3)
 
