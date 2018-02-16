@@ -39,14 +39,14 @@ def main():
     lights_button = ttk.Checkbutton(main_frame, onvalue=1,
                                     offvalue=0)
     lights_button.grid(row=1, column=0)
-    root.bind('l', lambda event: turn_on_lights)
-    root.bind('o', lambda event: turn_off_lights)
+    lights_button['command'] = lambda: turn_on_lights(mqtt_client)
+
 
     speed_label = ttk.Label(main_frame, text="DRIVE SPEED")
     speed_label.grid(row=0, column=3)
 
     speed_entry = ttk.Entry(main_frame, text="Green", width=11)
-    speed_entry.insert(0, 0)
+    speed_entry.insert(0, "450")
     speed_entry.grid(row=1, column=3)
 
     forward_button = ttk.Button(main_frame, text="Forward")
