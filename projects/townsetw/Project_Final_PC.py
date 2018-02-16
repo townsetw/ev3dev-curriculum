@@ -39,7 +39,10 @@ def main():
     lights_button = ttk.Checkbutton(main_frame, onvalue=1,
                                     offvalue=0)
     lights_button.grid(row=1, column=0)
-    lights_button['command'] = lambda: turn_on_lights(mqtt_client)
+    light_button_observer = tkinter.StringVar()
+    lights_button['variable'] = light_button_observer
+    lights_button['command'] = lambda: turn_on_off_lights(mqtt_client,
+                                                          light_button_observer.get())
 
 
     speed_label = ttk.Label(main_frame, text="DRIVE SPEED")
@@ -97,14 +100,15 @@ def drive_forward(mqtt_client, speed_entry):
                                                int(speed_entry.get())])
 
 
-def turn_on_lights(mqtt_client):
-    print('Turning On Lights')
-    mqtt_client.send_message("turn_on_lights")
+def turn_on_off_lights(mqtt_client, value):
+    x = int(value)
+    if x == 1:
+        print('lights are on')
+        mqtt_client.send_message("turn_on_lights")
+    if x == 0:
+        print('lights are off')
+        mqtt_client.send_message("turn_off_lights")
 
-
-def turn_off_lights(mqtt_client):
-    print('Turn Off Lights')
-    mqtt_client.send_message("turn_off_lights")
 
 
 def quit_program(mqtt_client, shutdown_ev3):
