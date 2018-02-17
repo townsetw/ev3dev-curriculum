@@ -1,12 +1,19 @@
-
 import mqtt_remote_method_calls as com
 import robot_controller as robo
 import ev3dev.ev3 as ev3
 import time
 
+""""This is the Ev3 portion of the final project"""
+""""These are the list of imports that allow mqtt communication, 
+robot control, ev3 access, and time."""
+
 
 class MyDelegate(object):
+    """"The MyDelegate class helps to communicate information and methods
+    back to the Tkinter gui and pc portion"""
     def __init__(self):
+        """"The constructor function that stores the components of the robot as
+        well as asserts them to make sure that they are connected"""
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
@@ -14,6 +21,7 @@ class MyDelegate(object):
         self.color_sensor = ev3.ColorSensor()
         self.ir_sensor = ev3.InfraredSensor()
         self.pixy = ev3.Sensor(driver_name="pixy-lego")
+        self.w = 1
 
         assert self.left_motor.connected
         assert self.right_motor.connected
@@ -144,15 +152,20 @@ class MyDelegate(object):
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         ev3.Sound.speak("Lights On").wait()
+        self.w = 2
 
     def turn_off_lights(self):
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
         ev3.Sound.speak("Lights Off").wait()
-
+        self.w = 2
 
 
 def main():
+    """"Initializes the waste bot and creates communication link to the pc
+    using the mqtt_client and delegate to have the tkinter gui receive
+    messages. Adds button callback functions so that when a digital input on the
+    brickman is selected, the robot will carry out that specific task. """
     print("--------------------------------------------")
     print(" Waste Bot Ready")
     print("--------------------------------------------")
@@ -170,15 +183,15 @@ def main():
     btn = ev3.Button()
     btn.on_up = lambda state: searching_for_radioactive_waste(state,
                                                               robot_mqtt,
-                                                        robot,
-                                                  "Up")
+                                                              robot,
+                                                              "Up")
     btn.on_down = lambda state: depositing_trash(state, robot_mqtt,
-                                                    robot, "Down")
+                                                 robot, "Down")
     btn.on_left = lambda state: recycling(state, robot_mqtt, robot,
-                                                    "Left")
+                                          "Left")
     btn.on_right = lambda state: depositing_radioactive_waste(state,
                                                               robot_mqtt,
-                                                     robot, "Right")
+                                                              robot, "Right")
 
     while my_delegate.running:
         btn.process()
@@ -186,7 +199,7 @@ def main():
 
 
 def depositing_radioactive_waste(button_state, mqtt_client, robot, button_name):
-    """Handle IR / button event."""
+    """Deposits the radioactive waste in the respective storage bin"""
     if button_state:
         print("{} button was pressed".format(button_name))
         mqtt_client.send_message("button_pressed", ["Depositing "
@@ -208,6 +221,11 @@ def depositing_radioactive_waste(button_state, mqtt_client, robot, button_name):
 
 
 def searching_for_radioactive_waste(button_state, mqtt_client, robot, button_name):
+    """searches for the radioactive waste in the vicinity by constantly
+    turning scanning the area for the color green that was learned by the
+    pixy camera. The Robot automatically adjusts based on x-coordinates of
+    the picture in the camera. Once found, the IR sensor will tell when the
+    radioactive material has been located."""
     if button_state:
         print("{} button was pressed".format(button_name))
         mqtt_client.send_message("button_pressed", ["Searching for "
@@ -246,7 +264,9 @@ def searching_for_radioactive_waste(button_state, mqtt_client, robot, button_nam
                         break
                 time.sleep(0.25)
 
+
 def depositing_trash(button_state, mqtt_client, robot, button_name):
+    """Deposits the trash into the respective storage bin"""
     if button_state:
         print("{} button was pressed".format(button_name))
         mqtt_client.send_message("button_pressed", ["Trashing"])
@@ -266,6 +286,7 @@ def depositing_trash(button_state, mqtt_client, robot, button_name):
 
 
 def recycling(button_state, mqtt_client, robot, button_name):
+    """"recycles waste into respective storage bin"""
     if button_state:
         print("{} button was pressed".format(button_name))
         mqtt_client.send_message("button_pressed", ["Recycling"])
@@ -283,9 +304,6 @@ def recycling(button_state, mqtt_client, robot, button_name):
                 robot.turn_degrees(90, 200)
                 break
         mqtt_client.send_message("button_pressed", ["Recycling Complete"])
-
-
-
 
 
 main()
