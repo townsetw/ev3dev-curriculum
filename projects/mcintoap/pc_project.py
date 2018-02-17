@@ -84,19 +84,12 @@ def main():
     return_to_start_button['command'] = lambda: return_to_start(mqtt_client, speed_entry)
     root.bind('x', lambda event: return_to_start(mqtt_client, speed_entry))
 
-    button_label = ttk.Label(main_frame, text="  Button messages from EV3  ")
-    button_label.grid(row=13, column=3)
-
-    button_message = ttk.Label(main_frame, text="--")
-    button_message.grid(row=14, column=3)
-
     quit_button = ttk.Button(main_frame, text="Quit")
     quit_button.grid(row=9, column=4)
     quit_button['command'] = (lambda: quit_program(mqtt_client))
     root.bind('q', lambda event: quit_program(mqtt_client))
 
-    pc_delegate = MyPcDelegate(button_message)
-    mqtt_client = com.MqttClient(pc_delegate)
+    mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
 
     root.mainloop()
