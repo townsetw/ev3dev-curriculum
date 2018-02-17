@@ -61,18 +61,18 @@ def main():
 
     back_button = ttk.Button(main_frame, text="Turn Around")
     back_button.grid(row=6, column=3)
-    back_button['command'] = lambda: turn_around(mqtt_client)
-    root.bind('<Down>', lambda event: turn_around(mqtt_client))
+    back_button['command'] = lambda: turn_around(mqtt_client, speed_entry)
+    root.bind('<Down>', lambda event: turn_around(mqtt_client, speed_entry))
 
     left_turning = ttk.Button(main_frame, text="Turn Left")
     left_turning.grid(row=5, column=0)
-    left_turning['command'] = lambda: turn_left(mqtt_client)
-    root.bind('<Left>', lambda event: turn_left(mqtt_client))
+    left_turning['command'] = lambda: turn_left(mqtt_client, speed_entry)
+    root.bind('<Left>', lambda event: turn_left(mqtt_client, speed_entry))
 
     right_turning = ttk.Button(main_frame, text="Turn Right")
     right_turning.grid(row=5, column=4)
-    right_turning['command'] = lambda: turn_right(mqtt_client)
-    root.bind('<Right>', lambda event: turn_right(mqtt_client))
+    right_turning['command'] = lambda: turn_right(mqtt_client, speed_entry)
+    root.bind('<Right>', lambda event: turn_right(mqtt_client, speed_entry))
 
     pick_up_treasure_button = ttk.Button(main_frame, text="Pick Up Treasure")
     pick_up_treasure_button.grid(row=9, column=0)
@@ -81,8 +81,8 @@ def main():
 
     return_to_start_button = ttk.Button(main_frame, text="Return to Beginning")
     return_to_start_button.grid(row=10, column=0)
-    return_to_start_button['command'] = lambda: return_to_start(mqtt_client)
-    root.bind('x', lambda event: return_to_start(mqtt_client))
+    return_to_start_button['command'] = lambda: return_to_start(mqtt_client, speed_entry)
+    root.bind('x', lambda event: return_to_start(mqtt_client, speed_entry))
 
     button_label = ttk.Label(main_frame, text="  Button messages from EV3  ")
     button_label.grid(row=13, column=3)
@@ -92,9 +92,8 @@ def main():
 
     quit_button = ttk.Button(main_frame, text="Quit")
     quit_button.grid(row=9, column=4)
-    quit_button['command'] = (lambda: quit_program(mqtt_client, False))
-    root.bind('q', lambda event: quit_program(mqtt_client, False))
-
+    quit_button['command'] = (lambda: quit_program(mqtt_client))
+    root.bind('q', lambda event: quit_program(mqtt_client))
 
     pc_delegate = MyPcDelegate(button_message)
     mqtt_client = com.MqttClient(pc_delegate)
@@ -114,19 +113,22 @@ def stop_robot(mqtt_client):
     mqtt_client.send_message("stop_robot")
 
 
-def turn_around(mqtt_client):
+def turn_around(mqtt_client, speed_entry):
     print('Turning Around')
-    mqtt_client.send_message("turn_around")
+    mqtt_client.send_message("turn_around", [int(speed_entry.get()),
+                                               int(speed_entry.get())])
 
 
-def turn_left(mqtt_client):
+def turn_left(mqtt_client, speed_entry):
     print('Turning Left')
-    mqtt_client.send_message("turn_left")
+    mqtt_client.send_message("turn_left", [int(speed_entry.get()),
+                                               int(speed_entry.get())])
 
 
-def turn_right(mqtt_client):
+def turn_right(mqtt_client, speed_entry):
     print('Turning Right')
-    mqtt_client.send_message("turn_right")
+    mqtt_client.send_message("turn_right", [int(speed_entry.get()),
+                                               int(speed_entry.get())])
 
 
 def pick_up_treasure(mqtt_client):
@@ -134,15 +136,17 @@ def pick_up_treasure(mqtt_client):
     mqtt_client.send_message("arm_up")
 
 
-def return_to_start(mqtt_client):
+def return_to_start(mqtt_client, speed_entry):
     print('Returning to beginning')
-    mqtt_client.send_message("return")
+    mqtt_client.send_message("return_to)start", [int(speed_entry.get()),
+                                               int(speed_entry.get())])
 
 
-def quit_program(mqtt_client, shutdown_ev3):
+def quit_program(mqtt_client):
     print("Shutting Down")
     mqtt_client.send_message("shutdown")
     mqtt_client.close()
     exit()
+
 
 main()
