@@ -107,9 +107,8 @@ def main():
     exit_button['command'] = (lambda: quit_program(mqtt_client, True))
     root.bind('e', lambda event: quit_program(mqtt_client, True))
 
-    pc_delegate = MyDelegateOnThePc(button_label)
+    pc_delegate = MyDelegateOnThePc(button_message)
     mqtt_client = com.MqttClient(pc_delegate)
-    mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
 
     root.mainloop()

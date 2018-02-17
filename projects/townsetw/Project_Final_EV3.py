@@ -2,6 +2,7 @@
 import mqtt_remote_method_calls as com
 import robot_controller as robo
 import ev3dev.ev3 as ev3
+import time
 
 
 class MyDelegate(object):
@@ -18,13 +19,18 @@ def main():
     ev3.Sound.speak("Recycle Bot Ready").wait()
 
     robot = robo.Snatch3r()
-    mqtt_client = com.MqttClient(robot)
+    my_delegate = MyDelegate()
+    mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_pc()
     robot.loop_forever()
 
     btn = ev3.Button()
     btn.on_up = lambda state: handle_button_press(state, mqtt_client, "Up")
     btn.on_down = lambda state: handle_button_press(state, mqtt_client, "Down")
+
+    while my_delegate.running:
+        btn.process()
+        time.sleep(0.01)
 
 
 def handle_button_press(button_state, mqtt_client, button_name):
