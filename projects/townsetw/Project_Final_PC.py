@@ -15,8 +15,8 @@ class MyDelegateOnThePc(object):
 
 
     def button_pressed(self, command):
-        print("Received Command: " + command)
-        message_to_display = "{} was initiated.".format(command)
+        print(command)
+        message_to_display = "{}".format(command)
         self.display_label.configure(text=message_to_display)
 
 def main():
@@ -24,6 +24,10 @@ def main():
     print(" Controlling the Waste Bot")
     print(" Press Back to exit when done.")
     print("--------------------------------------------")
+    print("Down = Deposits Trash")
+    print("Up = Searches for Radioactive Material")
+    print("Left = Recycles")
+    print("Right = Deposits Radioactive Material")
 
 
     root = tkinter.Tk()
