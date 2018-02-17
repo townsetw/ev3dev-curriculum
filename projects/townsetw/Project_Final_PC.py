@@ -13,13 +13,19 @@ class MyDelegateOnThePc(object):
     def __init__(self, label_to_display_messages_in):
         self.display_label = label_to_display_messages_in
 
-
     def button_pressed(self, command):
         print(command)
         message_to_display = "{}".format(command)
         self.display_label.configure(text=message_to_display)
 
+
 def main():
+    """Creates Tkinter GUI with drive speed entry, forward button,
+    stop button, back button, turn right button, turn left button, pick up
+    trash button, deposit trash button, quit out of the GUI and exit out of
+    the program buttons, as well as lights buttons to turn the lights on and
+    off on the robot depending on the time of day that the robot may be working in."""
+
     print("--------------------------------------------")
     print(" Controlling the Waste Bot")
     print(" Press Back to exit when done.")
@@ -28,7 +34,6 @@ def main():
     print("Up = Searches for Radioactive Material")
     print("Left = Recycles")
     print("Right = Deposits Radioactive Material")
-
 
     root = tkinter.Tk()
     root.title("Recycle Bot Control")
@@ -115,12 +120,15 @@ def main():
 
 
 def drive_forward(mqtt_client, speed_entry):
+    """Utilizes Mqtt clients to communicate with the robot to drive forward"""
     print('Driving Forwards')
     mqtt_client.send_message("drive_forward", [int(speed_entry.get()),
                                                int(speed_entry.get())])
 
 
 def turn_on_off_lights(mqtt_client, value):
+    """Utilizes Mqtt clients to communicate with the robot to turn on and
+    off the lights on the Brickman"""
     x = int(value)
     if x == 1:
         print('Lights Are On')
@@ -131,39 +139,48 @@ def turn_on_off_lights(mqtt_client, value):
 
 
 def stop_robot(mqtt_client):
+    """Utilizes Mqtt clients to communicate with the robot to stop the robot"""
     print("Stopping Robot")
     mqtt_client.send_message("stop_robot")
 
 
 def drive_backwards(mqtt_client, speed_entry):
+    """Utilizes Mqtt clients to communicate with the robot to drive
+    backwards"""
     print("Driving Backwards")
     mqtt_client.send_message("drive_backward", [int(speed_entry.get()),
                                                 int(speed_entry.get())])
 
 
 def turn_left(mqtt_client, speed_entry):
+    """Utilizes Mqtt clients to communicate with the robot to turn left"""
     print("Turning Left")
     mqtt_client.send_message("drive_left", [int(speed_entry.get()),
                                             int(speed_entry.get())])
 
 
 def turn_right(mqtt_client, speed_entry):
+    """Utilizes Mqtt clients to communicate with the robot to turn right"""
     print("Turning Right")
     mqtt_client.send_message("drive_right", [int(speed_entry.get()),
                                              int(speed_entry.get())])
 
 
 def pick_up_trash(mqtt_client):
+    """Utilizes Mqtt clients to communicate with the robot to move arm up"""
     print('Picking Up Trash')
     mqtt_client.send_message("arm_up")
 
 
 def deposit_trash(mqtt_client):
+    """Utilizes Mqtt clients to communicate with the robot to move arm down"""
     print('Depositing Trash')
     mqtt_client.send_message("arm_down")
 
 
 def quit_program(mqtt_client, shutdown_ev3):
+    """Utilizes Mqtt clients to communicate with the robot to either exit
+    the tkinter gui or exit the entire program"""
     if shutdown_ev3:
         print("Shutting Down")
         mqtt_client.send_message("shutdown")
