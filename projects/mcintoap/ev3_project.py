@@ -10,7 +10,8 @@ returnlist = []
 
 
 def drive_forward(speed_entry):
-    robot.drive_forward(speed_entry, speed_entry)
+    while robot.color_sensor.color != ev3.ColorSensor.COLOR_BLACK:
+        robot.drive_forward(speed_entry, speed_entry)
     returnlist.append('forward')
 
 
@@ -40,11 +41,11 @@ def arm_up():
 
 def return_to_start(speed_entry):
     for k in range(len(returnlist), -1):
-        if list[k] == 'forward':
+        if returnlist[k] == 'forward':
             drive_forward(speed_entry)
-        if list[k] == 'left':
+        if returnlist[k] == 'left':
             turn_left(speed_entry)
-        if list[k] == 'right':
+        if returnlist[k] == 'right':
             turn_right(speed_entry)
 
 
