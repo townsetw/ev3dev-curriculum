@@ -156,10 +156,6 @@ def main():
     print("--------------------------------------------")
     print(" Waste Bot Ready")
     print("--------------------------------------------")
-    print("Down = Deposits Trash")
-    print("Up = Searches for Radioactive Material")
-    print("Left = Recycles")
-    print("Right = Deposits Radioactive Material")
     ev3.Sound.speak("Waste Bot Ready").wait()
 
     robot = robo.Snatch3r()
@@ -200,7 +196,7 @@ def depositing_radioactive_waste(button_state, mqtt_client, robot, button_name):
         robot.drive_forward(100, 100)
         x = 1
         while x == 1:
-            if robot.color_sensor.color == 2:
+            if robot.color_sensor.color == 3:
                 robot.drive_forward(200, 200)
                 time.sleep(4)
                 robot.stop_robot()
@@ -219,8 +215,36 @@ def searching_for_radioactive_waste(button_state, mqtt_client, robot, button_nam
                                                     "Material"])
         ev3.Sound.speak("Scanning").wait()
 
-        ev3.Sound.speak("Radioactive Material Within the Area").wait()
+        robot.pixy.mode = "SIG1"
+        turn_speed = 100
+        sensor = ev3.InfraredSensor()
 
+        x = robot.pixy.value(1)
+        y = robot.pixy.value(2)
+
+        robot.turn_degrees(20, 200)
+        if x <= 150:
+
+            while not robot.touch_sensor.is_pressed:
+
+                print('x = ', x)
+                print('y = ', y)
+                print(robot.ir_sensor.proximity)
+                x = robot.pixy.value(1)
+                y = robot.pixy.value(2)
+
+                if x <= 150:
+                    robot.drive_forward(-turn_speed, turn_speed)
+                elif x >= 170:
+                    robot.drive_forward(turn_speed, -turn_speed)
+                elif 150 < x < 170:
+                    robot.drive_inches(3, 200)
+                    robot.stop_robot()
+                    if sensor.proximity <= 15:
+                        ev3.Sound.beep()
+                        ev3.Sound.speak("Found Radioactive Material").wait()
+                        break
+                time.sleep(0.25)
 
 def depositing_trash(button_state, mqtt_client, robot, button_name):
     if button_state:
@@ -249,8 +273,7 @@ def recycling(button_state, mqtt_client, robot, button_name):
         robot.drive_forward(100, 100)
         x = 1
         while x == 1:
-            print(robot.color_sensor.reflected_light_intensity)
-            if robot.color_sensor.reflected_light_intensity == 48 or 47:
+            if robot.color_sensor.color == 5:
                 robot.drive_forward(200, 200)
                 time.sleep(4)
                 robot.stop_robot()
@@ -259,7 +282,7 @@ def recycling(button_state, mqtt_client, robot, button_name):
                 robot.drive_inches(-24, 300)
                 robot.turn_degrees(90, 200)
                 break
-
+        mqtt_client.send_message("button_pressed", ["Recycling Complete"])
 
 
 
