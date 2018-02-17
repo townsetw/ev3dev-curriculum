@@ -25,10 +25,6 @@ def main():
     print(" Press Back to exit when done.")
     print("--------------------------------------------")
 
-    #pc_delegate = MyDelegateOnThePc(button_label)
-    #mqtt_client = com.MqttClient(pc_delegate)
-    #mqtt_client = com.MqttClient()
-    #mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
     root.title("Recycle Bot Control")
