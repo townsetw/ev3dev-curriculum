@@ -71,16 +71,23 @@ def main():
     left_turning.grid(row=5, column=0)
     left_turning['command'] = lambda: turn_left(mqtt_client, speed_entry)
     root.bind('<Left>', lambda event: turn_left(mqtt_client,
-                                                      speed_entry))
+                                                speed_entry))
 
     right_turning = ttk.Button(main_frame, text="Turn Right")
     right_turning.grid(row=5, column=4)
+    right_turning['command'] = lambda: turn_right(mqtt_client, speed_entry)
+    root.bind('<Right>', lambda event: turn_right(mqtt_client,
+                                                  speed_entry))
 
     pick_up_trash_button = ttk.Button(main_frame, text="Pick Up Trash")
     pick_up_trash_button.grid(row=9, column=0)
+    pick_up_trash_button['command'] = lambda: pick_up_trash(mqtt_client)
+    root.bind('z', lambda event: pick_up_trash(mqtt_client))
 
     deposit_trash_button = ttk.Button(main_frame, text="Deposit Trash")
     deposit_trash_button.grid(row=10, column=0)
+    deposit_trash_button['command'] = lambda: deposit_trash(mqtt_client)
+    root.bind('x', lambda event: deposit_trash(mqtt_client))
 
     button_label = ttk.Label(main_frame, text="  Button messages from EV3  ")
     button_label.grid(row=13, column=3)
@@ -134,9 +141,25 @@ def turn_left(mqtt_client, speed_entry):
                                             int(speed_entry.get())])
 
 
+def turn_right(mqtt_client, speed_entry):
+    print("Turning Right")
+    mqtt_client.send_message("drive_right", [int(speed_entry.get()),
+                                             int(speed_entry.get())])
+
+
+def pick_up_trash(mqtt_client):
+    print('Picking Up Trash')
+    mqtt_client.send_message("arm_up")
+
+
+def deposit_trash(mqtt_client):
+    print('Depositing Trash')
+    mqtt_client.send_message("arm_down")
+
+
 def quit_program(mqtt_client, shutdown_ev3):
     if shutdown_ev3:
-        print("shutdown")
+        print("Shutting Down")
         mqtt_client.send_message("shutdown")
     mqtt_client.close()
     exit()
