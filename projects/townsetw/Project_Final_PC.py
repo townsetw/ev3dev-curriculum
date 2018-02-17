@@ -7,7 +7,7 @@ from tkinter import ttk
 import mqtt_remote_method_calls as com
 
 
-class MyDelegate(object):
+class MyDelegateOnThePc(object):
     """ This class will help receive MQTT messages from the EV3. """
 
     def __init__(self, label_to_display_messages_in):
@@ -25,8 +25,10 @@ def main():
     print(" Press Back to exit when done.")
     print("--------------------------------------------")
 
-    mqtt_client = com.MqttClient()
-    mqtt_client.connect_to_ev3()
+    #pc_delegate = MyDelegateOnThePc(button_label)
+    #mqtt_client = com.MqttClient(pc_delegate)
+    #mqtt_client = com.MqttClient()
+    #mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
     root.title("Recycle Bot Control")
@@ -59,7 +61,7 @@ def main():
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=5, column=3)
     stop_button['command'] = lambda: stop_robot(mqtt_client)
-    root.bind('<space>', lambda event: stop_robot(mqtt_client))
+    root.bind('s', lambda event: stop_robot(mqtt_client))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=6, column=3)
@@ -104,6 +106,11 @@ def main():
     exit_button.grid(row=10, column=4)
     exit_button['command'] = (lambda: quit_program(mqtt_client, True))
     root.bind('e', lambda event: quit_program(mqtt_client, True))
+
+    pc_delegate = MyDelegateOnThePc(button_label)
+    mqtt_client = com.MqttClient(pc_delegate)
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
 
     root.mainloop()
 
