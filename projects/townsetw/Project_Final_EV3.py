@@ -194,8 +194,10 @@ def main():
     robot_mqtt.connect_to_pc()
 
     btn = ev3.Button()
-    btn.on_up = lambda state: handle_button_press(state, robot_mqtt, "Up")
-    btn.on_down = lambda state: handle_button_press(state, robot_mqtt, "Down")
+    btn.on_up = lambda state: handle_button_press(state, robot_mqtt,robot,
+                                                  "Up")
+    btn.on_down = lambda state: handle_button_press(state, robot_mqtt,
+                                                    robot, "Down")
 
     while my_delegate.running:
         btn.process()
@@ -204,11 +206,17 @@ def main():
 
 
 
-def handle_button_press(button_state, mqtt_client, button_name):
+def handle_button_press(button_state, mqtt_client, robot,  button_name):
     """Handle IR / button event."""
     if button_state:
         print("{} button was pressed".format(button_name))
         mqtt_client.send_message("button_pressed", [button_name])
+        if button_name == "Up":
+            robot.arm_calibration()
+            robot.Sound.speak("All Systems Are Working")
+        if button_name == "Down":
+            x = 5
+
 
 
 main()
