@@ -178,11 +178,3 @@ class Snatch3r(object):
                     else:
                         self.drive_forward(turn_speed, -turn_speed)
             time.sleep(0.2)
-
-    def turn_on_lights(self):
-        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
-        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
-
-    def turn_off_lights(self):
-        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
-        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
