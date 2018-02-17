@@ -3,7 +3,6 @@ import mqtt_remote_method_calls as com
 import robot_controller as robo
 import ev3dev.ev3 as ev3
 import time
-import math
 
 
 class MyDelegate(object):
@@ -141,50 +140,29 @@ class MyDelegate(object):
         self.right_motor.stop(stop_action='brake')
         self.arm_motor.stop(stop_action='brake')
 
-    def seek_beacon(self, forward_speed, turn_speed):
-        """Drives to the beacon at a given forward speed and turn speed"""
-        beacon_seeker = ev3.BeaconSeeker(channel=1)
-
-        while not self.touch_sensor.is_pressed:
-            current_heading = beacon_seeker.heading
-            current_distance = beacon_seeker.distance
-            if current_distance == -128:
-                print("IR Remote not found. Distance is -128")
-                self.drive_forward(turn_speed, -turn_speed)
-            else:
-                if math.fabs(current_heading) < 10:
-                    print("On the right heading. Distance: ", current_distance)
-                    if current_distance <= 10:
-                        self.stop_robot()
-                        return True
-                    else:
-                        self.drive_forward(forward_speed, forward_speed)
-
-                elif math.fabs(current_heading) < 20:
-                    print("Adjusting heading: ", current_heading)
-                    if current_heading < 0:
-                        self.drive_forward(-turn_speed, turn_speed)
-                    else:
-                        self.drive_forward(turn_speed, -turn_speed)
-            time.sleep(0.2)
-
     def turn_on_lights(self):
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        ev3.Sound.speak("Lights On").wait()
 
     def turn_off_lights(self):
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+        ev3.Sound.speak("Lights Off").wait()
+
 
 
 def main():
     print("--------------------------------------------")
-    print(" Recycle Robot Ready")
+    print(" Waste Bot Ready")
     print("--------------------------------------------")
-    ev3.Sound.speak("Recycle Bot Ready").wait()
+    print("Down = Deposits Trash")
+    print("Up = Searches for Radioactive Material")
+    print("Left = Recycles")
+    print("Right = Deposits Radioactive Material")
+    ev3.Sound.speak("Waste Bot Ready").wait()
 
     robot = robo.Snatch3r()
-
 
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
@@ -194,28 +172,96 @@ def main():
     robot_mqtt.connect_to_pc()
 
     btn = ev3.Button()
-    btn.on_up = lambda state: handle_button_press(state, robot_mqtt,robot,
+    btn.on_up = lambda state: searching_for_radioactive_waste(state,
+                                                              robot_mqtt,
+                                                        robot,
                                                   "Up")
-    btn.on_down = lambda state: handle_button_press(state, robot_mqtt,
+    btn.on_down = lambda state: depositing_trash(state, robot_mqtt,
                                                     robot, "Down")
+    btn.on_left = lambda state: recycling(state, robot_mqtt, robot,
+                                                    "Left")
+    btn.on_right = lambda state: depositing_radioactive_waste(state,
+                                                              robot_mqtt,
+                                                     robot, "Right")
 
     while my_delegate.running:
         btn.process()
         time.sleep(0.01)
 
 
-
-
-def handle_button_press(button_state, mqtt_client, robot,  button_name):
+def depositing_radioactive_waste(button_state, mqtt_client, robot, button_name):
     """Handle IR / button event."""
     if button_state:
         print("{} button was pressed".format(button_name))
-        mqtt_client.send_message("button_pressed", [button_name])
-        if button_name == "Up":
-            robot.arm_calibration()
-            robot.Sound.speak("All Systems Are Working")
-        if button_name == "Down":
-            x = 5
+        mqtt_client.send_message("button_pressed", ["Depositing "
+                                                    "Radioactive "
+                                                    "Material"])
+        ev3.Sound.speak("Depositing Radioactive Material").wait()
+        robot.drive_forward(100, 100)
+        x = 1
+        while x == 1:
+            if robot.color_sensor.color == 2:
+                robot.drive_forward(200, 200)
+                time.sleep(4)
+                robot.stop_robot()
+                robot.turn_degrees(-90, 200)
+                robot.arm_down()
+                robot.drive_inches(-24, 300)
+                robot.turn_degrees(90, 200)
+                break
+
+
+def searching_for_radioactive_waste(button_state, mqtt_client, robot, button_name):
+    if button_state:
+        print("{} button was pressed".format(button_name))
+        mqtt_client.send_message("button_pressed", ["Searching for "
+                                                    "Radioactive "
+                                                    "Material"])
+        ev3.Sound.speak("Scanning").wait()
+
+        ev3.Sound.speak("Radioactive Material Within the Area").wait()
+
+
+def depositing_trash(button_state, mqtt_client, robot, button_name):
+    if button_state:
+        print("{} button was pressed".format(button_name))
+        mqtt_client.send_message("button_pressed", ["Trashing"])
+        ev3.Sound.speak("Trashing").wait()
+        robot.drive_forward(100, 100)
+        x = 1
+        while x == 1:
+            if robot.color_sensor.color == 1:
+                robot.drive_forward(200, 200)
+                time.sleep(4)
+                robot.stop_robot()
+                robot.turn_degrees(-90, 200)
+                robot.arm_down()
+                robot.drive_inches(-24, 300)
+                robot.turn_degrees(90, 200)
+                break
+
+
+def recycling(button_state, mqtt_client, robot, button_name):
+    if button_state:
+        print("{} button was pressed".format(button_name))
+        mqtt_client.send_message("button_pressed", ["Recycling"])
+        ev3.Sound.speak("Recycling").wait()
+        robot.drive_forward(100, 100)
+        x = 1
+        while x == 1:
+            print(robot.color_sensor.reflected_light_intensity)
+            if robot.color_sensor.reflected_light_intensity == 48 or 47:
+                robot.drive_forward(200, 200)
+                time.sleep(4)
+                robot.stop_robot()
+                robot.turn_degrees(-90, 200)
+                robot.arm_down()
+                robot.drive_inches(-24, 300)
+                robot.turn_degrees(90, 200)
+                break
+
+
+
 
 
 

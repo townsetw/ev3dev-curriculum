@@ -14,14 +14,14 @@ class MyDelegateOnThePc(object):
         self.display_label = label_to_display_messages_in
 
 
-    def button_pressed(self, button_name):
-        print("Received: " + button_name)
-        message_to_display = "{} was pressed.".format(button_name)
+    def button_pressed(self, command):
+        print("Received Command: " + command)
+        message_to_display = "{} was initiated.".format(command)
         self.display_label.configure(text=message_to_display)
 
 def main():
     print("--------------------------------------------")
-    print(" Controlling the Recycle Bot")
+    print(" Controlling the Waste Bot")
     print(" Press Back to exit when done.")
     print("--------------------------------------------")
 
@@ -119,10 +119,10 @@ def drive_forward(mqtt_client, speed_entry):
 def turn_on_off_lights(mqtt_client, value):
     x = int(value)
     if x == 1:
-        print('lights are on')
+        print('Lights Are On')
         mqtt_client.send_message("turn_on_lights")
     if x == 0:
-        print('lights are off')
+        print('Lights Are Off')
         mqtt_client.send_message("turn_off_lights")
 
 
