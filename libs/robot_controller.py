@@ -209,11 +209,13 @@ class Snatch3r(object):
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
 
     def turn_lights_green(self):
+        """Turns the Robot Leds Green"""
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         ev3.Sound.speak("Lights Green").wait()
 
     def turn_lights_off(self):
+        "Turns the Robot Leds Black/off"
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
         ev3.Sound.speak("Lights Off").wait()

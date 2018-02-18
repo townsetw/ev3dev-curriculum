@@ -103,17 +103,20 @@ def main():
 
 
 def drive_forward(mqtt_client, speed_entry):
+    """Drives Robot Forward at given speed until the color sensor sees black"""
     print('Driving Forward')
     mqtt_client.send_message("drive_until_black", [int(speed_entry.get())])
     to_start_list.append('forward')
 
 
 def stop_robot(mqtt_client):
+    """Stops all robot motors"""
     print('Stopping Robot')
     mqtt_client.send_message("stop_robot")
 
 
 def turn_on_off_lights(mqtt_client, value):
+    """Checkbox that cycles between lights off and green"""
     x = int(value)
     if x == 2:
         print('Lights Are On')
@@ -124,6 +127,7 @@ def turn_on_off_lights(mqtt_client, value):
 
 
 def turn_around(mqtt_client, speed_entry):
+    """rotates the Robot 180 degrees at the given speed"""
     print('Turning Around')
     mqtt_client.send_message("turn_degrees", [int(180),
                                                int(speed_entry.get())])
@@ -131,6 +135,7 @@ def turn_around(mqtt_client, speed_entry):
 
 
 def turn_left(mqtt_client, speed_entry):
+    """turns the robot 90 degress left at given speed"""
     print('Turning Left')
     mqtt_client.send_message("turn_degrees", [int(90),
                                                int(speed_entry.get())])
@@ -138,6 +143,7 @@ def turn_left(mqtt_client, speed_entry):
 
 
 def turn_right(mqtt_client, speed_entry):
+    """turns the robot 90 degreees right at given speed"""
     print('Turning Right')
     mqtt_client.send_message("turn_degrees", [int(-90),
                                                int(speed_entry.get())])
@@ -145,16 +151,19 @@ def turn_right(mqtt_client, speed_entry):
 
 
 def pick_up_treasure(mqtt_client):
+    """moves arm up and sets the leds to amber"""
     print('Found the Teasure!')
     mqtt_client.send_message("treasure_found")
 
 
 def put_down_treasure(mqtt_client):
+    """"Moves arm down and sets leds to green"""
     print('Treasure Dropped!')
     mqtt_client.send_message("treasure_down")
 
 
 def return_to_start(mqtt_client, speed_entry):
+    """returns the robot to the beginnning of the maze"""
     print('Returning to beginning')
     mqtt_client.send_message("turn_degrees", [int(180),
                                               int(speed_entry.get())])
@@ -176,6 +185,7 @@ def return_to_start(mqtt_client, speed_entry):
 
 
 def quit_program(mqtt_client):
+    """"shuts down the robot and exits out of the window."""
     print("Shutting Down")
     mqtt_client.send_message("shutdown")
     mqtt_client.close()
