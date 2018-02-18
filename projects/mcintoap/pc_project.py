@@ -14,8 +14,11 @@ with the treasure."""
 
 import tkinter
 from tkinter import ttk
-
 import mqtt_remote_method_calls as com
+
+to_start_list = []
+# David, you said to put ths comment, we talked and you
+# said it was okay to use a global variable
 
 
 def main():
@@ -37,8 +40,7 @@ def main():
     speed_entry.insert(0, "450")
     speed_entry.grid(row=1, column=3)
 
-
-    start_button = ttk.Button(main_frame, text="Start")
+    start_button = ttk.Button(main_frame, text="Drive Forward")
     start_button.grid(row=4, column=3)
     start_button['command'] = lambda: drive_forward(mqtt_client, speed_entry)
     root.bind('<Up>', lambda event: drive_forward(mqtt_client, speed_entry))
@@ -68,8 +70,14 @@ def main():
     pick_up_treasure_button['command'] = lambda: pick_up_treasure(mqtt_client)
     root.bind('z', lambda event: pick_up_treasure(mqtt_client))
 
+    put_down_treasure_button = ttk.Button(main_frame, text="Put Down Treasure")
+    put_down_treasure_button.grid(row=10, column=0)
+    put_down_treasure_button['command'] = lambda: put_down_treasure(
+        mqtt_client)
+    root.bind('x', lambda event: pick_up_treasure(mqtt_client))
+
     return_to_start_button = ttk.Button(main_frame, text="Return to Beginning")
-    return_to_start_button.grid(row=10, column=0)
+    return_to_start_button.grid(row=11, column=0)
     return_to_start_button['command'] = lambda: return_to_start(mqtt_client, speed_entry)
     root.bind('x', lambda event: return_to_start(mqtt_client, speed_entry))
 
@@ -86,8 +94,8 @@ def main():
 
 def drive_forward(mqtt_client, speed_entry):
     print('Driving Forward')
-    mqtt_client.send_message("drive_forward", [int(speed_entry.get()),
-                                               int(speed_entry.get())])
+    mqtt_client.send_message("drive_until_black", [int(speed_entry.get())])
+    to_start_list.append('forward')
 
 
 def stop_robot(mqtt_client):
@@ -97,31 +105,54 @@ def stop_robot(mqtt_client):
 
 def turn_around(mqtt_client, speed_entry):
     print('Turning Around')
-    mqtt_client.send_message("turn_around", [int(speed_entry.get()),
+    mqtt_client.send_message("turn_degrees", [int(180),
                                                int(speed_entry.get())])
+    to_start_list.append('turn_around')
 
 
 def turn_left(mqtt_client, speed_entry):
     print('Turning Left')
-    mqtt_client.send_message("turn_left", [int(speed_entry.get()),
+    mqtt_client.send_message("turn_degrees", [int(90),
                                                int(speed_entry.get())])
+    to_start_list.append('turn_right')
 
 
 def turn_right(mqtt_client, speed_entry):
     print('Turning Right')
-    mqtt_client.send_message("turn_right", [int(speed_entry.get()),
+    mqtt_client.send_message("turn_degrees", [int(-90),
                                                int(speed_entry.get())])
+    to_start_list.append('turn_left')
 
 
 def pick_up_treasure(mqtt_client):
     print('Found the Teasure!')
-    mqtt_client.send_message("arm_up")
+    mqtt_client.send_message("treasure_found")
+
+
+def put_down_treasure(mqtt_client):
+    print('Treasure Dropped!')
+    mqtt_client.send_message("treasure_down")
 
 
 def return_to_start(mqtt_client, speed_entry):
     print('Returning to beginning')
-    mqtt_client.send_message("return_to)start", [int(speed_entry.get()),
-                                               int(speed_entry.get())])
+    mqtt_client.send_message("turn_degrees", [int(180),
+                                              int(speed_entry.get())])
+    print(to_start_list)
+    print(len(to_start_list))
+    for k in range(len(to_start_list)-1, 0,-1):
+        if to_start_list[k] == 'forward':
+            mqtt_client.send_message("drive_until_black",
+                                     [int(speed_entry.get())])
+        if to_start_list[k] == 'turn_left':
+            mqtt_client.send_message("turn_degrees", [int(90),
+                                                      int(speed_entry.get())])
+        if to_start_list[k] == 'turn_right':
+            mqtt_client.send_message("turn_degrees", [int(-90),
+                                                      int(speed_entry.get())])
+        if to_start_list[k] == 'turn_around':
+            mqtt_client.send_message("turn_degrees", [int(180),
+                                                      int(speed_entry.get())])
 
 
 def quit_program(mqtt_client):

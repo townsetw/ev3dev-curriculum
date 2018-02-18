@@ -178,3 +178,32 @@ class Snatch3r(object):
                     else:
                         self.drive_forward(turn_speed, -turn_speed)
             time.sleep(0.2)
+
+    def drive_until_black(self, speed_entry):
+        """The robot drives forward at given speed until the color sensor
+        senses black, then the robot stops"""
+        while self.color_sensor.color != self.color_sensor.COLOR_BLACK:
+            self.left_motor.run_forever(speed_sp=speed_entry)
+            self.right_motor.run_forever(speed_sp=speed_entry)
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action='brake')
+
+    def treasure_found(self):
+        """Robot arm Moves up, grabbing the treasure, and the leds turn
+        amber"""
+        self.arm_motor.run_forever(speed_sp=self.MAX_SPEED)
+        while not self.touch_sensor.is_pressed:
+            time.sleep(0.01)
+        self.arm_motor.stop(stop_action="brake")
+        ev3.Sound.beep()
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.AMBER)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.AMBER)
+
+    def treasure_down(self):
+        """Robot arm Moves up, grabbing the treasure, and the leds turn
+        amber"""
+        self.arm_motor.run_to_abs_pos(position_sp=0, speed_sp=self.MAX_SPEED)
+        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        ev3.Sound.beep()
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
