@@ -24,7 +24,7 @@ to_start_list = []
 def main():
     print("--------------------------------------------")
     print(" Controlling the Maze Runner")
-    print(" Press Back to exit when done.")
+    print(" Press quit to exit when done.")
     print("--------------------------------------------")
 
     root = tkinter.Tk()
@@ -35,6 +35,16 @@ def main():
 
     speed_label = ttk.Label(main_frame, text="DRIVE SPEED")
     speed_label.grid(row=0, column=3)
+
+    lights_button_label = ttk.Label(main_frame, text="Lights")
+    lights_button_label.grid(row=0, column=0)
+    lights_button = ttk.Checkbutton(main_frame, onvalue=1,
+                                    offvalue=0)
+    lights_button.grid(row=1, column=0)
+    light_button_observer = tkinter.StringVar()
+    lights_button['variable'] = light_button_observer
+    lights_button['command'] = lambda: turn_on_off_lights(mqtt_client,
+                                                          light_button_observer.get())
 
     speed_entry = ttk.Entry(main_frame, text="Green", width=11)
     speed_entry.insert(0, "450")
@@ -103,6 +113,16 @@ def stop_robot(mqtt_client):
     mqtt_client.send_message("stop_robot")
 
 
+def turn_on_off_lights(mqtt_client, value):
+    x = int(value)
+    if x == 1:
+        print('Lights Are On')
+        mqtt_client.send_message("turn_lights_green")
+    if x == 0:
+        print('Lights Are Off')
+        mqtt_client.send_message("turn_lights_off")
+
+
 def turn_around(mqtt_client, speed_entry):
     print('Turning Around')
     mqtt_client.send_message("turn_degrees", [int(180),
@@ -140,7 +160,7 @@ def return_to_start(mqtt_client, speed_entry):
                                               int(speed_entry.get())])
     print(to_start_list)
     print(len(to_start_list))
-    for k in range(len(to_start_list)-1, 0,-1):
+    for k in range(len(to_start_list)-1, 0, -1):
         if to_start_list[k] == 'forward':
             mqtt_client.send_message("drive_until_black",
                                      [int(speed_entry.get())])

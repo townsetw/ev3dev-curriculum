@@ -55,7 +55,7 @@ class Snatch3r(object):
     def turn_degrees(self, degrees_to_turn, turn_speed_sp):
         """Turns the robot a given number of degrees at a given speed"""
 
-        value = degrees_to_turn * 4.5
+        value = degrees_to_turn * 4.3
 
         self.left_motor.run_to_rel_pos(speed_sp=turn_speed_sp,
                                        position_sp=-value)
@@ -207,3 +207,13 @@ class Snatch3r(object):
         ev3.Sound.beep()
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+
+    def turn_lights_green(self):
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        ev3.Sound.speak("Lights Green").wait()
+
+    def turn_lights_off(self):
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+        ev3.Sound.speak("Lights Off").wait()
