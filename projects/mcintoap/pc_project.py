@@ -38,8 +38,8 @@ def main():
 
     lights_button_label = ttk.Label(main_frame, text="Lights")
     lights_button_label.grid(row=0, column=0)
-    lights_button = ttk.Checkbutton(main_frame, onvalue=1,
-                                    offvalue=0)
+    lights_button = ttk.Checkbutton(main_frame, onvalue=2,
+                                    offvalue=1)
     lights_button.grid(row=1, column=0)
     light_button_observer = tkinter.StringVar()
     lights_button['variable'] = light_button_observer
@@ -115,10 +115,10 @@ def stop_robot(mqtt_client):
 
 def turn_on_off_lights(mqtt_client, value):
     x = int(value)
-    if x == 1:
+    if x == 2:
         print('Lights Are On')
         mqtt_client.send_message("turn_lights_green")
-    if x == 0:
+    if x == 1:
         print('Lights Are Off')
         mqtt_client.send_message("turn_lights_off")
 
