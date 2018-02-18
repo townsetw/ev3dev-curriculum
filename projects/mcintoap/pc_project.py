@@ -180,8 +180,10 @@ def return_to_start(mqtt_client, speed_entry):
             mqtt_client.send_message("turn_degrees", [int(-90),
                                                       int(speed_entry.get())])
         if to_start_list[k] == 'turn_around':
-            mqtt_client.send_message("turn_degrees", [int(180),
+            mqtt_client.send_message("turn_degrees", [int(-300),
                                                       int(speed_entry.get())])
+    mqtt_client.send_message("drive_until_black",
+                             [int(speed_entry.get())])
 
 
 def quit_program(mqtt_client):
